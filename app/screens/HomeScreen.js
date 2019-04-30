@@ -11,6 +11,7 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import { GeoLocator } from '../components/GeoLocator';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -50,6 +51,10 @@ export default class HomeScreen extends React.Component {
             <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
               <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
             </TouchableOpacity>
+          </View>
+
+          <View style={styles.helpContainer}>
+            <GeoLocator />
           </View>
         </ScrollView>
 
