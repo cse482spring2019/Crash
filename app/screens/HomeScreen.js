@@ -11,7 +11,7 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
-import { GeoLocator } from '../components/GeoLocator';
+import GeoLocator from '../containers/GeoLocator';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {

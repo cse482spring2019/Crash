@@ -1,7 +1,23 @@
+// Library imports
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
+
+// Local imports
 import AppNavigator from './navigation/AppNavigator';
+import rootReducer from './reducers';
+
+export const store = createStore(
+  rootReducer,
+  applyMiddleware(
+    thunkMiddleware,
+    createLogger()
+  )
+);
 
 export default class App extends React.Component {
   state = {
@@ -19,10 +35,12 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
+        <Provider store={store}>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <AppNavigator />
+          </View>
+        </Provider>
       );
     }
   }
