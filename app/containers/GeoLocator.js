@@ -2,7 +2,7 @@
 import { connect } from "react-redux";
 
 // Local imports
-import { fetchLocation } from "../actions";
+import { fetchLocation } from "../redux/actions";
 import GeoLocatorView from "../components/GeoLocatorView";
 
 const mapStateToProps = state => {

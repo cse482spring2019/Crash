@@ -34,12 +34,12 @@ export function fetchLocation() {
           return Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.BestForNavigation });
         }
       },
-      (err) => console.error(err)
+      (err) => console.warn(err)
     ).then(
       ({ timestamp, coords }) => {
         dispatch(receiveLocation({ timestamp, ...coords }));
       },
-      (err) => console.error(`Status was ${JSON.stringify(err)}`)
+      (err) => console.warn(`Status was ${JSON.stringify(err)}`)
     );
   };
 }

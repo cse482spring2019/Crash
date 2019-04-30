@@ -9,7 +9,7 @@ import { createLogger } from 'redux-logger';
 
 // Local imports
 import AppNavigator from './navigation/AppNavigator';
-import rootReducer from './reducers';
+import rootReducer from './redux/reducers';
 
 export const store = createStore(
   rootReducer,
