@@ -11,8 +11,10 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import GeoLocatorView from '../components/GeoLocatorView';
 import GeoLocator from '../containers/GeoLocator';
 
+const LocationView = GeoLocator(GeoLocatorView);
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -54,7 +56,7 @@ export default class HomeScreen extends React.Component {
           </View>
 
           <View style={styles.helpContainer}>
-            <GeoLocator />
+            <LocationView watchLocation />
           </View>
         </ScrollView>
 

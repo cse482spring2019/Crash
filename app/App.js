@@ -10,12 +10,13 @@ import { createLogger } from 'redux-logger';
 // Local imports
 import AppNavigator from './navigation/AppNavigator';
 import rootReducer from './redux/reducers';
+import { stopWatchLocation, watchLocation } from './redux/actions';
 
 export const store = createStore(
   rootReducer,
   applyMiddleware(
     thunkMiddleware,
-    createLogger()
+    // createLogger()
   )
 );
 
@@ -23,6 +24,13 @@ export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
+
+  componentWillMount() {
+    store.dispatch(watchLocation());
+  }
+  componentWillUnmount() {
+    store.dispatch(stopWatchLocation());
+  }
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
