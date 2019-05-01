@@ -11,13 +11,13 @@ import {
 export function fetchLocation() {
   return async dispatch => {
     dispatch(fetchLocationRequest());
-    const { status } = await Permissions.askAsync(Permissions.LOCATION)
 
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       dispatch(fetchLocationFailure({
         type: 'static',
         timestamp: Date.now(),
-        error: `Permission not granted, status was: ${status}`,
+        error: `Location permission not granted, status was: ${status}`,
       }));
     } else {
       const { timestamp, coords } = await Location.getCurrentPositionAsync({

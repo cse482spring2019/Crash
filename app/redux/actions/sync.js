@@ -60,11 +60,10 @@ export function setLocationSubscription(subscription) {
 }
 
 export function stopWatchLocation() {
-  const watchLocationSubscription = getLocationSubscription()
   return dispatch => {
     if (watchLocationSubscription) {
       watchLocationSubscription.remove();
-      setLocationSubscription(null);
+      watchLocationSubscription = null;
     }
     dispatch(watchLocationStop());
   }

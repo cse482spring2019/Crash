@@ -5,19 +5,17 @@ import { connect } from "react-redux";
 import { fetchLocation } from "../redux/actions";
 
 const mapStateToProps = (state, ownProps) => {
-  if (ownProps.watchLocation) {
-    return {
-      location: state.get('location').get('dynamic'),
-    };
-  } else {
-    return {
-      location: state.get('location').get('static'),
-    };
-  }
+  return {
+    location:
+      state
+        .get('location')
+        .get(ownProps.watchLocation ? 'dynamic' : 'static'),
+    ...ownProps,
+  };
 }
 const mapDispatchToProps = dispatch => {
   return {
     fetchLocation: () => dispatch(fetchLocation())
   };
 }
-export default GeoLocator = (component) => connect(mapStateToProps, mapDispatchToProps)(component);
+export default GeoLocator = connect(mapStateToProps, mapDispatchToProps);
