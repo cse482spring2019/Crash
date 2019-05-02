@@ -13,8 +13,8 @@ const mapStateToProps = (state, ownProps) => {
     ...ownProps,
   };
 }
-const mapDispatchToProps = dispatch => {
-  return {
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return ownProps.watchLocation ? {} : {
     fetchLocation: () => dispatch(fetchLocation())
   };
 }
