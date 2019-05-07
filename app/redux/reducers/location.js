@@ -7,19 +7,15 @@ import { ActionTypes } from "../actions";
 import * as mutate from "./mutators";
 import { pipe } from "./utils";
 
-
 const setTimestampErrorCoords =
   p => [mutate.setTimestamp, mutate.setError, mutate.setCoords].map(fn => fn(p));
 
 function location_static(state = Map({}), action) {
   switch (action.type) {
-    case ActionTypes.FETCH_LOCATION.REQUEST:
-      return mutate.startFetching(state);
-    case ActionTypes.FETCH_LOCATION.SUCCESS:
-    case ActionTypes.FETCH_LOCATION.FAILURE:
+    case ActionTypes.LOCATION.FETCH.SUCCESS:
+    case ActionTypes.LOCATION.FETCH.FAILURE:
       if (action.payload.get('type') === 'static') {
         return pipe([
-          mutate.stopFetching,
           ...setTimestampErrorCoords(action.payload),
         ], state);
       }
@@ -29,12 +25,12 @@ function location_static(state = Map({}), action) {
 }
 function location_dynamic(state = Map({}), action) {
   switch (action.type) {
-    case ActionTypes.WATCH_LOCATION.START:
+    case ActionTypes.LOCATION.WATCH.START:
       return mutate.startWatching(state);
-    case ActionTypes.WATCH_LOCATION.STOP:
+    case ActionTypes.LOCATION.WATCH.STOP:
       return mutate.stopWatching(state);
-    case ActionTypes.FETCH_LOCATION.SUCCESS:
-    case ActionTypes.FETCH_LOCATION.FAILURE:
+    case ActionTypes.LOCATION.FETCH.SUCCESS:
+    case ActionTypes.LOCATION.FETCH.FAILURE:
       if (action.payload.get('type') === 'dynamic') {
         return pipe([
           ...setTimestampErrorCoords(action.payload),

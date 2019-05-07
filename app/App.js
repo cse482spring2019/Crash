@@ -10,7 +10,7 @@ import { createLogger } from 'redux-logger';
 // Local imports
 import AppNavigator from './navigation/AppNavigator';
 import rootReducer from './redux/reducers';
-import { stopWatchLocation, watchLocation } from './redux/actions';
+import { stopWatchLocation, watchLocation, fetchRoutes } from './redux/actions';
 
 export const store = createStore(
   rootReducer,
@@ -27,6 +27,7 @@ export default class App extends React.Component {
 
   componentWillMount() {
     store.dispatch(watchLocation());
+    store.dispatch(fetchRoutes());
   }
   componentWillUnmount() {
     store.dispatch(stopWatchLocation());

@@ -1,5 +1,3 @@
-export const startFetching = s => s.set('isFetching', true);
-export const stopFetching = s => s.set('isFetching', false);
 export const startWatching = s => s.set('isWatching', true);
 export const stopWatching = s => s.set('isWatching', false);
 
