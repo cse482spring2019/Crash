@@ -22,8 +22,14 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationAlwaysUsageDescription": "This app uses your location to determine your initial bus stop."
+      }
     }
   }
 }

@@ -11,7 +11,10 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import GeoLocatorView from '../components/GeoLocatorView';
+import GeoLocator from '../containers/GeoLocator';
 
+const LocationView = GeoLocator(GeoLocatorView);
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -50,6 +53,10 @@ export default class HomeScreen extends React.Component {
             <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
               <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
             </TouchableOpacity>
+          </View>
+
+          <View style={styles.helpContainer}>
+            <LocationView watchLocation />
           </View>
         </ScrollView>
 
