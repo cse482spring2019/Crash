@@ -17,7 +17,18 @@ export const ActionTypes = {
   },
   STOP: {
     FETCH_ALL: {
-      SUCCESS: 'FETCH_STOPS_SUCCES',
+      SUCCESS: 'FETCH_STOPS_SUCCESS',
+    },
+  },
+  TRIP: {
+    FETCH: {
+      SUCCESS: 'FETCH_TRIP_SUCCESS',
+      FAILURE: 'FETCH_TRIP_FAILURE',
+    },
+  },
+  BUZZ: {
+    FETCH_SAVED_PATTERNS: {
+      SUCCESS: 'BUZZ_FETCH_SAVED_PATTERNS_SUCCESS',
     },
   },
 };

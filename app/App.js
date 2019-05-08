@@ -10,7 +10,7 @@ import { createLogger } from 'redux-logger';
 // Local imports
 import AppNavigator from './navigation/AppNavigator';
 import rootReducer from './redux/reducers';
-import { stopWatchLocation, watchLocation, fetchRoutes } from './redux/actions';
+import { stopWatchLocation, watchLocation, fetchRoutes, fetchTrip, fetchSavedBuzzPatterns } from './redux/actions';
 
 export const store = createStore(
   rootReducer,
@@ -26,8 +26,10 @@ export default class App extends React.Component {
   };
 
   componentWillMount() {
+    store.dispatch(fetchSavedBuzzPatterns());
     store.dispatch(watchLocation());
     store.dispatch(fetchRoutes());
+    store.dispatch(fetchTrip('1_66871', '1_102548'));
   }
   componentWillUnmount() {
     store.dispatch(stopWatchLocation());
