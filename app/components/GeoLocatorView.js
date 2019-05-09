@@ -1,7 +1,6 @@
 import React from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import Buzzer from './Buzzer';
-import { Map, List } from 'immutable';
 
 const buzzLength = 300;
 
@@ -14,15 +13,15 @@ export default class GeoLocatorView extends React.Component {
       this.props.selectDirection('0');
       this.props.selectInitialStop(3);
       this.props.selectFinalStop(7);
+      this.props.fetchTrip(
+        nextProps.stops.getIn(['0', 'stops', 3, 'id']),
+        this.props.routes.getIn(['542', 'id'])
+      );
     }
   }
 
   render() {
     const { location, selection, stops } = this.props;
-    const error = location.get('error');
-    const coords = location.get('coords');
-
-    const selectedRoute = selection.get('route');
 
     let locationData = [];
     if (location.get('coords')) {
@@ -31,13 +30,13 @@ export default class GeoLocatorView extends React.Component {
           Timestamp: {location.get('timestamp')}
         </Text>,
         <Text key="longitude">
-          Longitude: {location.get('coords').get('longitude')}
+          Longitude: {location.getIn(['coords', 'longitude'])}
         </Text>,
         <Text key="latitude">
-          Latitude: {location.get('coords').get('latitude')}
+          Latitude: {location.getIn(['coords', 'latitude'])}
         </Text>,
         <Text key="accuracy">
-          Accuracy: {Math.round(100 * location.get('coords').get('accuracy')) / 100}
+          Accuracy: {Math.round(100 * location.getIn(['coords', 'accuracy'])) / 100}
         </Text>
       ];
     } else if (location.get('error')) {
@@ -59,31 +58,31 @@ export default class GeoLocatorView extends React.Component {
     if (selection.get('route')) {
       routeData.push(
         <Text key="routeName">
-          Name: {selection.get('route').get('shortName')}
+          Name: {selection.getIn(['route', 'shortName'])}
         </Text>,
       );
       if (selection.get('direction')) {
         routeData.push(
           <Text key="direction">
-            Direction: {stops.get(selection.get('direction')).get('direction')}
+            Direction: {stops.getIn([selection.get('direction'), 'direction'])}
           </Text>
         );
       }
       if (selection.get('initialStop')) {
-        const directionStops = stops.get(selection.get('direction')).get('stops');
+        const directionStops = stops.getIn([selection.get('direction'), 'stops']);
         const initialIndex = selection.get('initialStop');
         routeData.push(
           <Text key="initialStop">
-            From: {directionStops.get(initialIndex).get('name')}
+            From: {directionStops.getIn([initialIndex, 'name'])}
           </Text>
         );
       }
       if (selection.get('finalStop')) {
-        directionStops = stops.get(selection.get('direction')).get('stops');
+        directionStops = stops.getIn([selection.get('direction'), 'stops']);
         const finalIndex = selection.get('finalStop');
         routeData.push(
           <Text key="finalStop">
-            To: {directionStops.get(finalIndex).get('name')}
+            To: {directionStops.getIn([finalIndex, 'name'])}
           </Text>
         );
       }
@@ -91,13 +90,13 @@ export default class GeoLocatorView extends React.Component {
         if (selection.get('trip').get('error')) {
           routeData.push(
             <Text key="trip">
-              Error Getting Trip: {selection.get('trip').get('payload')}
+              Error Getting Trip: {selection.getIn(['trip', 'payload'])}
             </Text>
           );
         } else {
           routeData.push(
             <Text key="trip">
-              # Stops Away: {selection.get('trip').get('payload').get('numberOfStopsAway')}
+              # Stops Away: {selection.getIn(['trip', 'payload', 'numberOfStopsAway'])}
             </Text>
           );
         }
@@ -108,21 +107,13 @@ export default class GeoLocatorView extends React.Component {
       );
     }
 
-    // textBlocks.push(
-    //   <Text key="trip">
-    //     Number of Stops Away of Nearest Trip: {
-    //       selection.get('trip').get('payload').get('numberOfStopsAway')
-    //     },
-    //   </Text>
-    // );
-
     return (
       <Buzzer
         buzzList={selection.get('buzzList')}
         trip={
-          selection.get('trip') && selection.get('trip').get('error')
+          selection.get('trip') && selection.getIn(['trip', 'error'])
             ? null
-            : selection.get('trip').get('payload')
+            : selection.getIn(['trip', 'payload'])
         }
         onPress={() => Alert.alert('Buzz Click', 'clicked!')}>
         <View style={styles.container}>

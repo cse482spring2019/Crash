@@ -14,19 +14,19 @@ export default class Buzzer extends React.Component {
     const { trip, stops } = this.props;
     switch (unit) {
       case 'stop':
-        return trip && value === trip.numberOfStopsAway
+        return trip && value === trip.get('numberOfStopsAway');
       case 'minute':
         if (trip) {
-          const arrivalTime = trip.predictedArrivalTime > 0
-            ? trip.predictedArrivalTime
-            : trip.scheduledArrivalTime
+          const arrivalTime = trip.get('predictedArrivalTime') > 0
+            ? trip.get('predictedArrivalTime')
+            : trip.get('scheduledArrivalTime')
           const numberOfMinutesAway = (arrivalTime - Date.now()) / 60000
           return Math.abs(value - numberOfMinutesAway) < 1;
         } else return false;
       case 'percent':
         if (stops) {
-          const multiplier = 100 / stops.length;
-          return Math.abs(value - (multiplier * trip.numberOfStopsAway)) < multiplier;
+          const multiplier = 100 / stops.size;
+          return Math.abs(value - (multiplier * trip.get('numberOfStopsAway'))) < multiplier;
         } else return false;
     }
   }
@@ -36,10 +36,10 @@ export default class Buzzer extends React.Component {
       if (!this.state.completed.get(i) && this.shouldBuzz(buzz)) {
         Vibration.vibrate(
           Platform.OS === 'android'
-            ? buzz.get('buzz').get('pattern').reduce((acc, p) =>
+            ? buzz.getIn(['buzz', 'pattern']).reduce((acc, p) =>
               acc.concat(List([p, 300])), List()).toArray()
-            : buzz.get('buzz').get('pattern').toArray(),
-          buzz.get('buzz').get('repeat')
+            : buzz.getIn(['buzz', 'pattern']).toArray(),
+          buzz.getIn(['buzz', 'repeat'])
         );
         this.setState({
           completed: this.state.completed.set(i, true),

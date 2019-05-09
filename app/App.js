@@ -29,7 +29,6 @@ export default class App extends React.Component {
     store.dispatch(fetchSavedBuzzPatterns());
     store.dispatch(watchLocation());
     store.dispatch(fetchRoutes());
-    store.dispatch(fetchTrip('1_66871', '1_102548'));
   }
   componentWillUnmount() {
     store.dispatch(stopWatchLocation());
