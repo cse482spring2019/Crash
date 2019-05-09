@@ -14,10 +14,17 @@ export const ActionTypes = {
       SUCCESS: 'ROUTE_FETCH_ALL_SUCCESS',
     },
     SELECT: 'ROUTE_SELECT',
+    DIRECTION: {
+      SELECT: 'ROUTE_DIRECTION_SELECT',
+    },
   },
   STOP: {
     FETCH_ALL: {
-      SUCCESS: 'FETCH_STOPS_SUCCESS',
+      SUCCESS: 'STOP_FETCH_ALL_SUCCESS',
+    },
+    SELECT: {
+      INITIAL: 'STOP_SELECT_INITIAL',
+      FINAL: 'STOP_SELECT_FINAL',
     },
   },
   TRIP: {

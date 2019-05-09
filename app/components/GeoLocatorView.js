@@ -1,99 +1,161 @@
 import React from 'react';
-import { Alert, Text } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import Buzzer from './Buzzer';
 import { Map, List } from 'immutable';
 
-const buzzLength = 100;
+const buzzLength = 300;
 
 export default class GeoLocatorView extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.routes.size === 0 && nextProps.routes.size > 0) {
       this.props.selectRoute(nextProps.routes.get('542'));
     }
+    if (!this.props.stops.get('0') && nextProps.stops.get('0')) {
+      this.props.selectDirection('0');
+      this.props.selectInitialStop(3);
+      this.props.selectFinalStop(7);
+    }
   }
 
   render() {
-    const location = this.props.location;
-    const timestamp = location.get('timestamp');
+    const { location, selection, stops } = this.props;
     const error = location.get('error');
     const coords = location.get('coords');
 
-    const selectedRoute = this.props.selection.get('route');
+    const selectedRoute = selection.get('route');
 
-    let textBlocks = [
-      <Text key="timestamp">
-        Timestamp: {timestamp},
-      </Text>
-    ];
-    if (selectedRoute) {
-      textBlocks.push(
-        <Text key="route">
-          Route: {selectedRoute.get('shortName')} {selectedRoute.get('description')},
-        </Text>
-      );
-      textBlocks.push(
-        <Text key="stop">
-          Stop: {this.props.stops.get('0').get('stops').get(0).get('name')},
-        </Text>
-      );
-      textBlocks.push(
-        <Text key="trip">
-          Number of Stops Away of Nearest Trip: {
-            this.props.selection.get('trip').get('payload').get('numberOfStopsAway')
-          },
-        </Text>
-      );
-    }
-    if (error) {
-      textBlocks.push(
-        <Text key="error">
-          Error: {JSON.stringify(error)}
-        </Text>
-      );
-    } else if (coords) {
-      textBlocks = textBlocks.concat([
+    let locationData = [];
+    if (location.get('coords')) {
+      locationData = [
+        <Text key="locationTimestamp">
+          Timestamp: {location.get('timestamp')}
+        </Text>,
         <Text key="longitude">
-          Longitude: {coords.get("longitude")},
+          Longitude: {location.get('coords').get('longitude')}
         </Text>,
         <Text key="latitude">
-          Latitude: {coords.get("latitude")},
+          Latitude: {location.get('coords').get('latitude')}
         </Text>,
         <Text key="accuracy">
-          Accuracy: {coords.get("accuracy")}
+          Accuracy: {Math.round(100 * location.get('coords').get('accuracy')) / 100}
         </Text>
-      ]);
+      ];
+    } else if (location.get('error')) {
+      locationData = [
+        <Text key="locationTimestamp">
+          Timestamp: {location.get('timestamp')}
+        </Text>,
+        <Text key="locationError">
+          Error: {location.get('error')}
+        </Text>
+      ];
     } else {
-      textBlocks =
-        <Text>
-          Waiting...
-        </Text>;
+      locationData.push(
+        <Text key="locationWatining">Waiting...</Text>
+      );
     }
+
+    let routeData = [];
+    if (selection.get('route')) {
+      routeData.push(
+        <Text key="routeName">
+          Name: {selection.get('route').get('shortName')}
+        </Text>,
+      );
+      if (selection.get('direction')) {
+        routeData.push(
+          <Text key="direction">
+            Direction: {stops.get(selection.get('direction')).get('direction')}
+          </Text>
+        );
+      }
+      if (selection.get('initialStop')) {
+        const directionStops = stops.get(selection.get('direction')).get('stops');
+        const initialIndex = selection.get('initialStop');
+        routeData.push(
+          <Text key="initialStop">
+            From: {directionStops.get(initialIndex).get('name')}
+          </Text>
+        );
+      }
+      if (selection.get('finalStop')) {
+        directionStops = stops.get(selection.get('direction')).get('stops');
+        const finalIndex = selection.get('finalStop');
+        routeData.push(
+          <Text key="finalStop">
+            To: {directionStops.get(finalIndex).get('name')}
+          </Text>
+        );
+      }
+      if (selection.get('trip')) {
+        if (selection.get('trip').get('error')) {
+          routeData.push(
+            <Text key="trip">
+              Error Getting Trip: {selection.get('trip').get('payload')}
+            </Text>
+          );
+        } else {
+          routeData.push(
+            <Text key="trip">
+              # Stops Away: {selection.get('trip').get('payload').get('numberOfStopsAway')}
+            </Text>
+          );
+        }
+      }
+    } else {
+      routeData.push(
+        <Text key="routeWaiting">Waiting...</Text>
+      );
+    }
+
+    // textBlocks.push(
+    //   <Text key="trip">
+    //     Number of Stops Away of Nearest Trip: {
+    //       selection.get('trip').get('payload').get('numberOfStopsAway')
+    //     },
+    //   </Text>
+    // );
 
     return (
       <Buzzer
-        buzzList={List([
-          Map({
-            unit: 'stop',
-            value: 0,
-            buzz: Map({ repeat: true, pattern: List([300]) }),
-          }),
-          Map({
-            unit: 'stop',
-            value: 1,
-            buzz: Map({ repeat: false, pattern: List([300]) }),
-          }),
-          Map({
-            unit: 'stop',
-            value: 2,
-            buzz: Map({ repeat: false, pattern: List([300, 300]) }),
-          }),
-        ])}
+        buzzList={selection.get('buzzList')}
         trip={
-          { numberOfStopsAway: 1 }
+          selection.get('trip') && selection.get('trip').get('error')
+            ? null
+            : selection.get('trip').get('payload')
         }
-        onPress={() => Alert.alert('Buzz Click', 'clicked!') }>
-        {textBlocks}
+        onPress={() => Alert.alert('Buzz Click', 'clicked!')}>
+        <View style={styles.container}>
+          <View style={styles.section}>
+            <Text style={styles.sectionHeading}>Location:</Text>
+            {locationData}
+          </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionHeading}>Route:</Text>
+            {routeData}
+          </View>
+        </View>
       </Buzzer>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: 400,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    borderColor: 'red',
+    borderWidth: 5,
+  },
+  section: {
+    borderColor: 'black',
+    borderWidth: 5,
+    paddingHorizontal: 10,
+  },
+  sectionHeading: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+});

@@ -51,6 +51,7 @@ export default class Buzzer extends React.Component {
   render() {
     return (
       <TouchableWithoutFeedback
+        {...this.props}
         onPress={
           () => {
             Vibration.cancel();

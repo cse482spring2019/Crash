@@ -17,6 +17,12 @@ function routeSelect(route) {
     payload: route,
   };
 }
+export function routeDirectionSelect(payload) {
+  return {
+    type: ActionTypes.ROUTE.DIRECTION.SELECT,
+    payload,
+  };
+}
 
 // Complex Action Creators
 async function getAgencies() {

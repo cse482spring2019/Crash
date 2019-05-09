@@ -12,9 +12,9 @@ import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 import GeoLocatorView from '../components/GeoLocatorView';
-import GeoLocator from '../containers/GeoLocator';
+import { Location, Routes, Stops, Selection } from '../containers';
 
-const LocationView = GeoLocator(GeoLocatorView);
+const LocationView = Selection(Stops(Routes(Location(GeoLocatorView))));
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -49,24 +49,8 @@ export default class HomeScreen extends React.Component {
             </Text>
           </View>
 
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <LocationView watchLocation />
-          </View>
+          <LocationView watchLocation />
         </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar 🦏. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
       </View>
     );
   }

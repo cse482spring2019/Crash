@@ -10,7 +10,7 @@ import { config } from '../../config';
       "value": 0,
       "buzz": {
         "repeat": true,
-        "pattern": [0.5],
+        "pattern": [300],
       },
     },
     ...
@@ -24,6 +24,9 @@ import { config } from '../../config';
     "shortName": "70",
     ...
   },
+  direction: "0",
+  initialStop: 4,
+  finalStop: 7,
   trip: {
     error: boolean
     payload: string if error, else {
@@ -45,8 +48,16 @@ import { config } from '../../config';
 const initialState = Map({ buzzList: fromJS(config.buzzDefaults) });
 export function selection(state = initialState, action) {
   switch (action.type) {
+    case ActionTypes.BUZZ.FETCH_SAVED_PATTERNS.SUCCESS:
+      return state.set('buzzList', action.payload);
     case ActionTypes.ROUTE.SELECT:
       return state.set('route', action.payload);
+    case ActionTypes.ROUTE.DIRECTION.SELECT:
+      return state.set('direction', action.payload);
+    case ActionTypes.STOP.SELECT.INITIAL:
+      return state.set('initialStop', action.payload);
+    case ActionTypes.STOP.SELECT.FINAL:
+      return state.set('finalStop', action.payload);
     case ActionTypes.TRIP.FETCH.SUCCESS:
       return state.withMutations(mutable =>
         mutable
@@ -59,8 +70,6 @@ export function selection(state = initialState, action) {
           .setIn(['trip', 'payload'], action.payload)
           .setIn(['trip', 'error'], true)
       );
-    case ActionTypes.BUZZ.FETCH_SAVED_PATTERNS.SUCCESS:
-      return state.set('buzzList', action.payload);
     default:
       return state;
   }

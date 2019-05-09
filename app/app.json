@@ -49,7 +49,7 @@
           "buzz": {
             "repeat": true,
             "pattern": [
-              500
+              300
             ]
           }
         },
@@ -59,7 +59,7 @@
           "buzz": {
             "repeat": false,
             "pattern": [
-              500
+              300
             ]
           }
         },
@@ -69,8 +69,8 @@
           "buzz": {
             "repeat": false,
             "pattern": [
-              500,
-              500
+              300,
+              300
             ]
           }
         }

@@ -10,6 +10,18 @@ function stopFetchAllSuccess(stopsByDirection) {
     payload: stopsByDirection,
   };
 }
+export function stopSelectInitial(idx) {
+  return {
+    type: ActionTypes.STOP.SELECT.INITIAL,
+    payload: idx,
+  };
+}
+export function stopSelectFinal(idx) {
+  return {
+    type: ActionTypes.STOP.SELECT.FINAL,
+    payload: idx,
+  }
+}
 
 // Complex Action Creators
 export function fetchStops(routeId) {
