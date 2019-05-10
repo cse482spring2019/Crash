@@ -11,7 +11,7 @@ export default class Buzzer extends React.Component {
   shouldBuzz(buzz) {
     const unit = buzz.get('unit');
     const value = buzz.get('value');
-    const { trip, stops } = this.props;
+    const { trip, stops, stopIndex } = this.props;
     switch (unit) {
       case 'stop':
         return trip && value === trip.get('numberOfStopsAway');

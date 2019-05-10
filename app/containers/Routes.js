@@ -6,6 +6,7 @@ import { selectRoute } from '../redux/actions';
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    selectedRoute: state.getIn(['selection', 'route']),
     routes: state.get('routes'),
     ...ownProps,
   };

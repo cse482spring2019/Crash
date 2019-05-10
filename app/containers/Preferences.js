@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    selection: state.get('selection'),
+    buzzList: state.getIn(['selection', 'buzzList']),
     ...ownProps,
   };
 };
-export const Selection = connect(mapStateToProps);
+export const Preferences = connect(mapStateToProps);

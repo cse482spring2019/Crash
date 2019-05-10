@@ -12,9 +12,9 @@ import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 import GeoLocatorView from '../components/GeoLocatorView';
-import { Location, Routes, Stops, Selection, Trip } from '../containers';
+import { Location, Routes, Stops, Preferences, Trip } from '../containers';
 
-const LocationView = Trip(Selection(Stops(Routes(Location(GeoLocatorView)))));
+const LocationView = Trip(Preferences(Stops(Routes(Location(GeoLocatorView)))));
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -49,7 +49,7 @@ export default class HomeScreen extends React.Component {
             </Text>
           </View>
 
-          <LocationView watchLocation />
+          <LocationView watchLocation tripKey="testLocation" />
         </ScrollView>
       </View>
     );

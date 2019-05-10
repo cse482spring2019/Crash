@@ -4,6 +4,9 @@ import { routeDirectionSelect, stopSelectInitial, stopSelectFinal } from '../red
 const mapStateToProps = (state, ownProps) => {
   return {
     stops: state.get('stops'),
+    selectedDirection: state.getIn(['selection', 'direction']),
+    selectedInitialStop: state.getIn(['selection', 'initialStop']),
+    selectedFinalStop: state.getIn(['selection', 'finalStop']),
     ...ownProps,
   };
 };

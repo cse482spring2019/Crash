@@ -1,5 +1,5 @@
 export * from './Location';
 export * from './Routes';
-export * from './Selection';
+export * from './Preferences';
 export * from './Stops';
 export * from './Trip';

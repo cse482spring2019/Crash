@@ -29,8 +29,12 @@ export const ActionTypes = {
   },
   TRIP: {
     FETCH: {
-      SUCCESS: 'FETCH_TRIP_SUCCESS',
-      FAILURE: 'FETCH_TRIP_FAILURE',
+      SUCCESS: 'TRIP_FETCH_SUCCESS',
+      FAILURE: 'TRIP_FETCH_FAILURE',
+    },
+    WATCH: {
+      START: 'TRIP_WATCH_START',
+      STOP: 'TRIP_WATCH_STOP',
     },
   },
   BUZZ: {
