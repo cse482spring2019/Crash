@@ -12,9 +12,9 @@ import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 import GeoLocatorView from '../components/GeoLocatorView';
-import GeoLocator from '../containers/GeoLocator';
+import { Location, Routes, Stops, Preferences, Trip } from '../containers';
 
-const LocationView = GeoLocator(GeoLocatorView);
+const LocationView = Trip(Preferences(Stops(Routes(Location(GeoLocatorView)))));
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
@@ -49,24 +49,8 @@ export default class HomeScreen extends React.Component {
             </Text>
           </View>
 
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <LocationView watchLocation />
-          </View>
+          <LocationView watchLocation tripKey="testLocation" />
         </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar 🦏. You can edit it in:</Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
       </View>
     );
   }
@@ -82,7 +66,7 @@ export default class HomeScreen extends React.Component {
       return (
         <Text style={styles.developmentModeText}>
           Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
+        tools. {learnMoreButton}
         </Text>
       );
     } else {

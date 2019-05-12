@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { Map } from 'immutable';
 import { ActionTypes } from './types';
 import { fetchStops } from './stop';
-import { getUrl, key } from './oneBusAway';
+import { getUrl, apiKey, maxAttempts } from './oneBusAway';
 
 // Simple Action Creators
 function routeFetchAllSuccess(routes) {
@@ -17,10 +17,16 @@ function routeSelect(route) {
     payload: route,
   };
 }
+export function routeDirectionSelect(payload) {
+  return {
+    type: ActionTypes.ROUTE.DIRECTION.SELECT,
+    payload,
+  };
+}
 
 // Complex Action Creators
 async function getAgencies() {
-  const response = await Axios.get(getUrl('agencies-with-coverage'), { params: { key: key } });
+  const response = await Axios.get(getUrl('agencies-with-coverage'), { params: { key: apiKey } });
   const data = response.data.data;
   return data.references.agencies;
 }
@@ -28,8 +34,10 @@ async function getAgencies() {
 async function getRoutesForAgency(id) {
   try {
     let data = {};
-    while (!data.data) {
-      const response = await Axios.get(getUrl(`routes-for-agency/${id}`), { params: { key: key } });
+    let attempts = 0;
+    while (attempts <= maxAttempts && !data.data) {
+      const response = await Axios.get(getUrl(`routes-for-agency/${id}`), { params: { key: apiKey } });
+      attempts++;
       data = response.data;
     }
     return data.data.list;
