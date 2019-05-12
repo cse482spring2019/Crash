@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
@@ -13,11 +14,13 @@ import { WebBrowser } from 'expo';
 export default class SplashScreen extends React.Component {
     render() {
         return (
-            <View styles={styles.container}>
-                <Text>
-                    Tap Anywhere to Begin 
-                </Text>
-            </View>
+            <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InitialStop')}>
+                <View styles={styles.container}>
+                    <Text>
+                        Tap Anywhere to Begin 
+                    </Text>
+                </View>
+            </TouchableWithoutFeedback>
         );
     }
 }
