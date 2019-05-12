@@ -15,11 +15,9 @@ import { Button } from 'react-native-material-ui';
 
 import { MonoText } from '../components/StyledText';
 import GeoLocatorView from '../components/GeoLocatorView';
-import GeoLocator from '../containers/GeoLocator';
+import { Location, Routes, Stops, Preferences, Trip } from '../containers';
 
-import { ScreenOrientation } from 'expo';
-
-const LocationView = GeoLocator(GeoLocatorView);
+const LocationView = Trip(Preferences(Stops(Routes(Location(GeoLocatorView)))));
 export default class HomeScreen extends React.Component {
 
   constructor(props) {
@@ -35,34 +33,37 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
-  componentDidMount() {
-    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.ALL);
-  }
-
-  handleClick = () => {
-    if (this.state.myColor === 'green') {
-      this.setState({ myColor: 'blue' });
-    } else {
-      this.setState({ myColor: 'green' });
-    }
-  }
-
   render() {
     return (
-      <View style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <StatusBar hidden/>
-        <View>
-          <Text style={styles.confirmationText}>Can you confirm I am getting on bus</Text>
-          <Text style={styles.text}>{this.state.busToDisplay}</Text>
-        </View>
-        <View>
-          <TouchableOpacity style={styles.button} onPress={() => this.handleClick()}>
-            <Text style={styles.buttonText}>Y E S</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonNo} onPress={() => this.handleClick()}>
-            <Text style={styles.buttonText}>N O</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.container}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+          <View style={styles.welcomeContainer}>
+            <Image
+              source={
+                __DEV__
+                  ? require('../assets/images/robot-dev.png')
+                  : require('../assets/images/robot-prod.png')
+              }
+              style={styles.welcomeImage}
+            />
+          </View>
+
+          <View style={styles.getStartedContainer}>
+            {this._maybeRenderDevelopmentModeWarning()}
+
+            <Text style={styles.getStartedText}>Get started by opening</Text>
+
+            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
+              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
+            </View>
+
+            <Text style={styles.getStartedText}>
+              🦏🦏🦏🦏🦏🦏🦏🦏🦏🦏
+            </Text>
+          </View>
+
+          <LocationView watchLocation tripKey="testLocation" />
+        </ScrollView>
       </View>
     );
   }
@@ -78,7 +79,7 @@ export default class HomeScreen extends React.Component {
       return (
         <Text style={styles.developmentModeText}>
           Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
+        tools. {learnMoreButton}
         </Text>
       );
     } else {
