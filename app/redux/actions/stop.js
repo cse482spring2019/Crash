@@ -33,11 +33,12 @@ export function fetchStops(routeId) {
       Map({})
     );
     const byDirection = data.entry.stopGroupings[0].stopGroups.reduce(
-      (acc, group) => acc.set(group.id, Map({
+      (acc, group) => acc.push(Map({
+        groupId: group.id,
         direction: group.name.names[0],
         stops: List(group.stopIds.map(id => stops.get(id))),
       })),
-      Map({})
+      List([])
     );
     dispatch(stopFetchAllSuccess(byDirection));
   };

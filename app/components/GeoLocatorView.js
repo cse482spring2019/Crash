@@ -14,12 +14,12 @@ export default class GeoLocatorView extends React.Component {
     if (routes.size === 0 && nextProps.routes.size > 0) {
       selectRoute(nextProps.routes.get('542'));
     }
-    if (!stops.get('0') && nextProps.stops.get('0')) {
-      selectDirection('0');
+    if (!stops.get(0) && nextProps.stops.get(0)) {
+      selectDirection(0);
       selectInitialStop(3);
       selectFinalStop(7);
       fetchTrip(
-        nextProps.stops.getIn(['0', 'stops', 3, 'id']),
+        nextProps.stops.getIn([0, 'stops', 3, 'id']),
         routes.getIn(['542', 'id'])
       );
     }
@@ -76,7 +76,7 @@ export default class GeoLocatorView extends React.Component {
           Name: {selectedRoute.get('shortName')}
         </Text>,
       );
-      if (selectedDirection) {
+      if (selectedDirection !== undefined && selectedDirection !== null) {
         routeData.push(
           <Text key="direction">
             Direction: {stops.getIn([selectedDirection, 'direction'])}
