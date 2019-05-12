@@ -1,5 +1,8 @@
-const baseUrl = 'http://api.pugetsound.onebusaway.org/api/where/';
-export const key = '68e81371-e5bf-44bc-b407-1c695948c02a';
+import { config } from "../../config";
+
+const { baseUrl, key, maxRequestAttempts } = config.api.oneBusAway;
+export const apiKey = key;
+export const maxAttempts = maxRequestAttempts;
 
 export function getUrl(endpoint) {
   return baseUrl + endpoint + '.json';

@@ -23,13 +23,58 @@
       "**/*"
     ],
     "android": {
-      "permissions": ["ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
     },
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
         "NSLocationAlwaysUsageDescription": "This app uses your location to determine your initial bus stop."
       }
+    },
+    "extra": {
+      "api": {
+        "oneBusAway": {
+          "baseUrl": "http://api.pugetsound.onebusaway.org/api/where/",
+          "key": "68e81371-e5bf-44bc-b407-1c695948c02a",
+          "maxRequestAttempts": 8
+        }
+      },
+      "buzzDefaults": [
+        {
+          "unit": "stop",
+          "value": 0,
+          "buzz": {
+            "repeat": true,
+            "pattern": [
+              300
+            ]
+          }
+        },
+        {
+          "unit": "stop",
+          "value": 1,
+          "buzz": {
+            "repeat": false,
+            "pattern": [
+              300
+            ]
+          }
+        },
+        {
+          "unit": "stop",
+          "value": 2,
+          "buzz": {
+            "repeat": false,
+            "pattern": [
+              300,
+              300
+            ]
+          }
+        }
+      ]
     }
   }
 }
