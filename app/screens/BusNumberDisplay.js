@@ -10,26 +10,22 @@ import {
   View
 } from 'react-native';
 import { WebBrowser } from 'expo';
-// import { withStyles } from '@material-ui/core/styles';
-import { Button } from 'react-native-material-ui';
-
-import { MonoText } from '../components/StyledText';
-import GeoLocatorView from '../components/GeoLocatorView';
-import GeoLocator from '../containers/GeoLocator';
-
 import { ScreenOrientation } from 'expo';
+import GetBusNumber from '../components/GetBusNumber';
+import {Routes} from '../containers/Routes';
 
-const LocationView = GeoLocator(GeoLocatorView);
+const ShowBusNumber = Routes(GetBusNumber);
+
 export default class HomeScreen extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      // busToDisplay: this.props.selection.get('route')
-      busToDisplay: "271",
-      myColor: "blue"
-    };
-  }
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       // busToDisplay: this.props.selection.get('route')
+//       busToDisplay: "271",
+//       myColor: "blue"
+//     };
+//   }
 
   static navigationOptions = {
     header: null,
@@ -39,13 +35,13 @@ export default class HomeScreen extends React.Component {
     ScreenOrientation.allowAsync(ScreenOrientation.Orientation.ALL);
   }
 
-  handleClick = () => {
-    if (this.state.myColor === 'green') {
-      this.setState({ myColor: 'blue' });
-    } else {
-      this.setState({ myColor: 'green' });
-    }
-  }
+//   handleClick = () => {
+//     if (this.state.myColor === 'green') {
+//       this.setState({ myColor: 'blue' });
+//     } else {
+//       this.setState({ myColor: 'green' });
+//     }
+//   }
 
   render() {
     return (
@@ -53,13 +49,13 @@ export default class HomeScreen extends React.Component {
         <StatusBar hidden/>
         <View>
           <Text style={styles.confirmationText}>Can you confirm I am getting on bus</Text>
-          <Text style={styles.text}>{this.state.busToDisplay}</Text>
+          <ShowBusNumber />
         </View>
         <View>
-          <TouchableOpacity style={styles.button} onPress={() => this.handleClick()}>
+          <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>Y E S</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonNo} onPress={() => this.handleClick()}>
+          <TouchableOpacity style={styles.buttonNo}>
             <Text style={styles.buttonText}>N O</Text>
           </TouchableOpacity>
         </View>

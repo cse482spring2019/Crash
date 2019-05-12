@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import BusNumberDisplay from '../screens/BusNumberDisplay';
 
 export const HomeStack = createStackNavigator({
   Home: BusNumberDisplay,
