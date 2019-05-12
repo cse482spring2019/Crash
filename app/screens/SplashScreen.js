@@ -13,8 +13,10 @@ import { WebBrowser } from 'expo';
 export default class SplashScreen extends React.Component {
     render() {
         return (
-            <View>
-
+            <View styles={styles.container}>
+                <Text>
+                    Tap Anywhere to Begin 
+                </Text>
             </View>
         );
     }
