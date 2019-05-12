@@ -5,7 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import { WebBrowser } from 'expo';
@@ -22,36 +22,38 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
-
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>Get started by opening</Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
+      <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('InitialStop')}>
+        <View style={styles.container}>
+          <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            <View style={styles.welcomeContainer}>
+              <Image
+                source={
+                  __DEV__
+                    ? require('../assets/images/robot-dev.png')
+                    : require('../assets/images/robot-prod.png')
+                }
+                style={styles.welcomeImage}
+              />
             </View>
 
-            <Text style={styles.getStartedText}>
-              🦏🦏🦏🦏🦏🦏🦏🦏🦏🦏
-            </Text>
-          </View>
+            <View style={styles.getStartedContainer}>
+              {this._maybeRenderDevelopmentModeWarning()}
 
-          <LocationView watchLocation tripKey="testLocation" />
-        </ScrollView>
-      </View>
+              <Text style={styles.getStartedText}>Get started by opening</Text>
+
+              <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
+                <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
+              </View>
+
+              <Text style={styles.getStartedText}>
+                🦏🦏🦏🦏🦏🦏🦏🦏🦏🦏
+            </Text>
+            </View>
+
+            <LocationView watchLocation tripKey="testLocation" />
+          </ScrollView>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 
