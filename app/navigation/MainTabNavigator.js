@@ -7,8 +7,8 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+export const HomeStack = createStackNavigator({
+  Home: BusNumberDisplay,
 });
 
 HomeStack.navigationOptions = {
