@@ -1,5 +1,5 @@
 import React from 'react';
-import OBAPicker from './OBAPicker';
+import OBAPicker from './misc/OBAPicker';
 
 function getStops({ selectedDirection, stops }) {
   if (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
-import Buzzer from './Buzzer';
+import Buzzer from './misc/Buzzer';
 
 const buzzLength = 300;
 
