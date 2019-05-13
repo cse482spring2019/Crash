@@ -82,7 +82,6 @@ export function selection(state = initialState, action) {
     case ActionTypes.TRIP.WATCH.STOP:
       sub = state.getIn(['trip', action.payload, 'sub']);
       if (sub) {
-        console.log('cancelling!');
         sub.cancel();
       }
       return state.setIn(['trip', action.payload, 'sub'], null);

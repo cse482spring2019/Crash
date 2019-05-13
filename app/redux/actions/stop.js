@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { Map, List } from "immutable";
 import { ActionTypes } from "./types";
-import { apiKey, getUrl } from "./oneBusAway";
+import { apiKey, getUrl, maxAttempts } from "./oneBusAway";
 
 // Simple Action Creators
 function stopFetchAllSuccess(stopsByDirection) {
@@ -26,8 +26,17 @@ export function stopSelectFinal(idx) {
 // Complex Action Creators
 export function fetchStops(routeId) {
   return async dispatch => {
-    const response = await Axios.get(getUrl(`stops-for-route/${routeId}`), { params: { key: apiKey } });
-    const data = response.data.data;
+    let data = {};
+    let attempts = 0;
+    while (attempts <= maxAttempts && (typeof data !== typeof {} || !data.data)) {
+      const response = await Axios.get(
+        getUrl(`stops-for-route/${routeId}`),
+        { params: { key: apiKey } }
+      );
+      attempts++;
+      data = response.data;
+    }
+    data = data.data;
     const stops = data.references.stops.reduce(
       (acc, stop) => acc.set(stop.id, Map(stop)),
       Map({})

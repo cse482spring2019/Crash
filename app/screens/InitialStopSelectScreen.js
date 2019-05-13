@@ -32,7 +32,7 @@ export default class InitialStopSelectScreen extends React.Component {
       <InputScreenShell
         wrap={Stops}
         titleText="SELECT ORIGIN STOP"
-        subTitleText="are you at..."
+        subTitleText="are you at...?"
         clickNext={this.clickNext}
       >
         <View style={styles.nearestStopsContainer}>

@@ -44,14 +44,16 @@ export function fetchTrip(id, stopId, routeId) {
       data = response.data;
     }
     if (typeof data !== typeof {} || !data.data) dispatch(tripFetchFailure(id, 'Failed to fetch data'));
-    data = data.data;
-    const and = data.entry.arrivalsAndDepartures.reduce(
-      (acc, and) => acc.routeId === routeId ? acc : and
-    );
-    if (and.routeId === routeId) {
-      dispatch(tripFetchSuccess(id, fromJS(and)));
-    } else {
-      dispatch(tripFetchFailure(id, 'No buses of this route are arriving at this stop in the next 60 minutes'));
+    else {
+      data = data.data;
+      const and = data.entry.arrivalsAndDepartures.reduce(
+        (acc, and) => acc.routeId === routeId ? acc : and
+      );
+      if (and.routeId === routeId) {
+        dispatch(tripFetchSuccess(id, fromJS(and)));
+      } else {
+        dispatch(tripFetchFailure(id, 'No buses of this route are arriving at this stop in the next 60 minutes'));
+      }
     }
   }
 }
