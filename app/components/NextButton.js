@@ -11,7 +11,7 @@ export default function NextButton(props) {
       background={TouchableNativeFeedback.SelectableBackground()}
     >
       <View style={{ ...styles.container, ...props.style }}>
-        <NextButtonText>{props.text}</NextButtonText>
+        <NextButtonText>{props.children}</NextButtonText>
       </View>
     </TouchableNativeFeedback>
   );

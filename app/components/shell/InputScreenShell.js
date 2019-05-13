@@ -9,7 +9,10 @@ import SubTitleText from '../text/SubTitleText';
 import NextButton from '../NextButton';
 
 export default function InputScreenShell(props) {
-  const WrappedNextButton = props.wrap(NextButton);
+  const WrappedNextButton =
+    props.wrap
+      ? props.wrap(NextButton)
+      : NextButton;
 
   return (
     <ScreenShell
@@ -24,8 +27,9 @@ export default function InputScreenShell(props) {
       <WrappedNextButton
         style={{ margin: -20 }}
         onPress={props.clickNext}
-        text={props.nextButtonText || 'Next'}
-      />
+      >
+        {props.nextButtonText || 'NEXT'}
+      </WrappedNextButton>
     </ScreenShell>
   );
 }
