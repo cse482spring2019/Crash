@@ -35,6 +35,10 @@
       }
     },
     "extra": {
+      "colors": {
+        "shellBackground": "#4A78BD",
+        "nextButtonBackground": "#FC4A1A"
+      },
       "api": {
         "oneBusAway": {
           "baseUrl": "http://api.pugetsound.onebusaway.org/api/where/",

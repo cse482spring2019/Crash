@@ -24,7 +24,7 @@ import { config } from '../../config';
     "shortName": "70",
     ...
   },
-  direction: "0",
+  direction: 0,
   initialStop: 4,
   finalStop: 7,
   trip: {
