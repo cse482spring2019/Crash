@@ -34,18 +34,26 @@ function locationWatchStop() {
 // Complex Action Creators
 export function fetchLocation() {
   return async dispatch => {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
+    try {
+      const { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+        dispatch(locationFetchFailure({
+          type: 'static',
+          timestamp: Date.now(),
+          error: `Location permission not granted, status was: ${status}`,
+        }));
+      } else {
+        const { timestamp, coords } = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.BestForNavigation,
+        });
+        dispatch(locationFetchSuccess({ type: 'static', timestamp, ...coords }));
+      }
+    } catch (e) {
       dispatch(locationFetchFailure({
         type: 'static',
         timestamp: Date.now(),
-        error: `Location permission not granted, status was: ${status}`,
+        error: `Failed to fetch location, location services may be disabled`,
       }));
-    } else {
-      const { timestamp, coords } = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.BestForNavigation,
-      });
-      dispatch(locationFetchSuccess({ type: 'static', timestamp, ...coords }));
     }
   };
 }

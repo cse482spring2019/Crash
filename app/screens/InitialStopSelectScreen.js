@@ -1,60 +1,74 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-
-import { Location, Stops, Routes } from '../containers';
-import NearestStops from '../components/NearestStops';
 import InputScreenShell from '../components/shell/InputScreenShell';
-
-const WrappedNearestStops = Routes(Location(Stops(NearestStops)));
+import NearestStops from '../components/NearestStops';
+import AllStops from '../components/AllStops';
 export default class InitialStopSelectScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { selectedStop: '' };
+    this.state = { selectedStop: '', geo: true };
   }
 
-  clickNext = (props) => {
-    const { selectedDirection, selectInitialStop, stops } = props;
+  componentWillMount() {
+    const { fetchLocation, selectDirection, selectedDirection, selectRoute, stops, routes } = this.props;
+    fetchLocation();
+    if (selectedDirection === undefined && stops.get(0)) {
+      selectDirection(0);
+    } else if (routes.size > 0) {
+      selectRoute(routes.get('542'));
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { pStops, pRoutes } = prevProps;
+    const { selectRoute, selectDirection, stops, routes } = this.props;
+    if ((!pRoutes || pRoutes.size === 0) && routes.size > 0) {
+      selectRoute(routes.get('542'));
+    }
+    if ((!pStops || !pStops.get(0)) && stops.get(0)) {
+      selectDirection(0);
+    }
+  }
+
+  clickNext = () => {
+    const { selectedDirection, selectInitialStop, stops } = this.props;
+
     if (this.state.selectedStop === '' || this.state.selectedStop === 'none') {
-      // Navigate to Initial Stop Select w/o Geolocation screen
-      this.props.navigation.navigate('Home');
+      this.setState({ geo: false });
     } else {
       selectInitialStop(
         stops
           .getIn([selectedDirection, 'stops'])
           .findIndex(value => value.get('id') === this.state.selectedStop)
       );
-      // Navigate to Final Stop Select screen
+      this.props.navigation.navigate('FinalStopSelect');
     }
   }
 
   render() {
     return (
       <InputScreenShell
-        wrap={Stops}
         titleText="SELECT ORIGIN STOP"
-        subTitleText="are you at...?"
+        subTitleText={
+          this.props.location.get('error') || !this.state.geo
+            ? 'and press next to continue'
+            : 'are you at...?'
+        }
         clickNext={this.clickNext}
       >
-        <View style={styles.nearestStopsContainer}>
-          <WrappedNearestStops
-            style={styles.nearestStops}
-            itemStyle={styles.nearestStopsItems}
-            selected={this.state.selectedStop}
-            onSelect={(index) => this.setState({ selectedStop: index })}
-          />
-        </View>
+        {
+          this.props.location.get('error') || !this.state.geo
+            ? <AllStops
+              selected={this.state.selectedStop}
+              onSelect={(id) => this.setState({ selectedStop: id })}
+              {...this.props}
+            />
+            : <NearestStops
+              selected={this.state.selectedStop}
+              onSelect={(id) => this.setState({ selectedStop: id })}
+              {...this.props}
+            />
+        }
       </InputScreenShell>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  nearestStopsContainer: {
-    margin: 10,
-    borderRadius: 20,
-    backgroundColor: 'white',
-  },
-  nearestStops: {
-    height: 100,
-  },
-});

@@ -64,6 +64,30 @@ our application screens:
       - `style`
       - `children`
 - Misc:
+  - `Buzzer`
+    - Takes a list of buzz patterns and triggers, as well as a GTFS `trip` and
+      handles buzzing for the given information. If any of the buzz triggers
+      have a unit of `percent`, this component also requires the full list of
+      `stops` for the current trip
+    - Accepted props:
+      - `buzzList` - Must be a list of buzz preferences as defined in
+        [Preferences](#preferences)
+      - `trip` - Must be a GTFS trip as defined in [Trip](#trip)
+      - `stops` - Must be a list of stops (for a route and direction) as defined
+        in [Stops](#stops)
+      - `style`
+      - `children`
+  - `OBAPicker`
+    - Displays a big, white, selection list picker intended for the input
+      selection screens
+    - Accepted props:
+      - `options` - List of selection options
+        - Each option must have the form `{ value: string, label: string }`
+      - `selected` - The value of the currently selected option
+      - `onSelect(value)` - The functino to call when a user updates their
+        selection
+      - `style` - Styles for the picker's container component
+      - `pickerStyle` - Styles for the picker itself
   - `NextButton`
     - Displays a big, red, button intended for the "NEXT" text at the bottom of
       screens
