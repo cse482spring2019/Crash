@@ -4,15 +4,22 @@ import { orderByDistance } from 'geolib';
 
 export default class NearestStops extends React.Component {
   componentWillMount() {
-    this.props.fetchLocation();
+    const { fetchLocation, selectDirection, selectedDirection, selectRoute, stops, routes } = this.props;
+    fetchLocation();
+    if (selectedDirection === undefined && stops.get(0)) {
+      selectDirection(0);
+    } else if (routes.size > 0) {
+      selectRoute(routes.get('542'));
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps) {
+    const { pStops, pRoutes } = prevProps;
     const { selectRoute, selectDirection, stops, routes } = this.props;
-    if (routes.size === 0 && nextProps.routes.size > 0) {
-      selectRoute(nextProps.routes.get('542'));
+    if ((!pRoutes || pRoutes.size === 0) && routes.size > 0) {
+      selectRoute(routes.get('542'));
     }
-    if (!stops.get(0) && nextProps.stops.get(0)) {
+    if ((!pStops || !pStops.get(0)) && stops.get(0)) {
       selectDirection(0);
     }
   }
