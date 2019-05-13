@@ -20,58 +20,58 @@ The repository for the Savage Rhinoceroses capstone team
 We have developed the following re-usable UI components to be used in several of
 our application screens:
 
-* Textual Components:
-  * `RobotoText`
-    * Displays a plain `Text` component with `fontFamily: 'Roboto'`
-    * Accepted props:
-      * `style`
-      * `children` (via nesting i.e. `<RobotoText>Some Text</RobotoText>`)
-  * `TitleText`
-    * Displays text intended for the title of a screen
-    * Accepted props:
-      * `style`
-      * `children`
-  * `SubTitleText`
-    * Displays text intended for the subtitle of a screen
-    * Accepted props:
-      * `style`
-      * `children`
-  * `NextButtonText`
-    * Displays text intended for the big, red "NEXT" button
-    * Accepted props:
-      * `style`
-      * `children`
-* Screen Shell Components:
-  * `ScreenShell`
-    * Displays a full-screen component with a blue background, no status bar,
+- Textual Components:
+  - `RobotoText`
+    - Displays a plain `Text` component with `fontFamily: 'Roboto'`
+    - Accepted props:
+      - `style`
+      - `children` (via nesting i.e. `<RobotoText>Some Text</RobotoText>`)
+  - `TitleText`
+    - Displays text intended for the title of a screen
+    - Accepted props:
+      - `style`
+      - `children`
+  - `SubTitleText`
+    - Displays text intended for the subtitle of a screen
+    - Accepted props:
+      - `style`
+      - `children`
+  - `NextButtonText`
+    - Displays text intended for the big, red "NEXT" button
+    - Accepted props:
+      - `style`
+      - `children`
+- Screen Shell Components:
+  - `ScreenShell`
+    - Displays a full-screen component with a blue background, no status bar,
       and vertically (and horizontally) centered children
-    * Accepted props:
-      * `onPress()`
-      * `style`
-      * `children`
-  * `InputScreenShell`
-    * Displays a `ScreenShell` with slots for title and subtitle text at the
+    - Accepted props:
+      - `onPress()`
+      - `style`
+      - `children`
+  - `InputScreenShell`
+    - Displays a `ScreenShell` with slots for title and subtitle text at the
       top, a "NEXT" button at the bottom, and children in between
-    * Accepted props:
-      * `titleText`
-      * `subTitleText`
-      * `nextButtonText` - Default value is "NEXT"
-      * `clickNext(props)` - Function to call when the "NEXT" button is clicked
-        * The props available to the "NEXT" button are provided as an argument
-      * `wrap()` - (optional) Container function in which to wrap the "NEXT" button
-        * This is useful if you want to have access to global state in `clickNext()`
-      * `onPress()`
-      * `style`
-      * `children`
-* Misc:
-  * `NextButton`
-    * Displays a big, red, button intended for the "NEXT" text at the bottom of
+    - Accepted props:
+      - `titleText`
+      - `subTitleText`
+      - `nextButtonText` - Default value is "NEXT"
+      - `clickNext(props)` - Function to call when the "NEXT" button is clicked
+        - The props available to the "NEXT" button are provided as an argument
+      - `wrap()` - (optional) Container function in which to wrap the "NEXT" button
+        - This is useful if you want to have access to global state in `clickNext()`
+      - `onPress()`
+      - `style`
+      - `children`
+- Misc:
+  - `NextButton`
+    - Displays a big, red, button intended for the "NEXT" text at the bottom of
       screens
-    * Accepted props:
-      * `onPress(props)` - The `NextButton`'s props are provided to
+    - Accepted props:
+      - `onPress(props)` - The `NextButton`'s props are provided to
         `onPressed()`
-      * `style`
-      * `children`
+      - `style`
+      - `children`
 
 ## **Redux Containers**
 
@@ -107,9 +107,9 @@ a `boolean` prop `watchLocation` representing whether or not the child component
 should regularly receive location updates or only when it requests them. \
 It exposes the following props:
 
-* `location`
+- `location`
 
-  * ```javascript
+  - ```javascript
     {
       timestamp: number,
       coords: {
@@ -120,16 +120,16 @@ It exposes the following props:
     }
     ```
 
-* `fetchLocation()` - Gets the user's current GeoLocation data
-  * This function is provided only if `watchLocation` is `false`
+- `fetchLocation()` - Gets the user's current GeoLocation data
+  - This function is provided only if `watchLocation` is `false`
 
 ### **Routes**
 
 This container exposes data regarding GTFS routes.
 
-* `selectedRoute`
+- `selectedRoute`
 
-  * ```javascript
+  - ```javascript
     {
       id: string,
       description: string,
@@ -138,9 +138,9 @@ This container exposes data regarding GTFS routes.
     }
     ```
 
-* `routes`
+- `routes`
 
-  * ```javascript
+  - ```javascript
     {
       [route.shortName]: {
         id: string,
@@ -151,17 +151,17 @@ This container exposes data regarding GTFS routes.
     }
     ```
 
-* `selectRoute(route)` - Sets the selected route
-  * This function also fetches stop data for the selected route
+- `selectRoute(route)` - Sets the selected route
+  - This function also fetches stop data for the selected route
 
 ### **Stops**
 
 This container provides data regarding GTFS stops associated with a specific
 route (and directions).
 
-* `stops`
+- `stops`
 
-  * ```javascript
+  - ```javascript
     [
       {
         groupId: string,
@@ -178,17 +178,17 @@ route (and directions).
     ]
     ```
 
-* `selectedDirection`: number
-  * The index of the selected direction in the `stops` list
-* `selectedInitialStop`: number
-  * The index of the selected initial stop in the `stops` list for the
+- `selectedDirection`: number
+  - The index of the selected direction in the `stops` list
+- `selectedInitialStop`: number
+  - The index of the selected initial stop in the `stops` list for the
     given direction
-* `selectedFinalStop`: number
-  * The index of the selected final stop in the `stops` list for the
+- `selectedFinalStop`: number
+  - The index of the selected final stop in the `stops` list for the
     given direction
-* `selectDirection(dir)` - Sets the selected direction
-* `selectInitialStop(idx)` - Sets the selected initial stop
-* `selectFinalStop(idx)` - Sets the selected final stop
+- `selectDirection(dir)` - Sets the selected direction
+- `selectInitialStop(idx)` - Sets the selected initial stop
+- `selectFinalStop(idx)` - Sets the selected final stop
 
 ### **Trip**
 
@@ -197,10 +197,10 @@ requested route to the requested stop. This container takes a required prop
 `tripKey` of type `string`, which should be unique for each instance. This is
 done to allow multiple components to interact with different trips.
 
-* `activeTrip` - This is only provided if fetching succeeded (not always true
+- `activeTrip` - This is only provided if fetching succeeded (not always true
                   for the other containers)
 
-  * ```javascript
+  - ```javascript
     {
       tripId: string,
       routeId: string,
@@ -215,17 +215,17 @@ done to allow multiple components to interact with different trips.
     }
     ```
 
-* `activeTripError`: string - This is only provided if fetching failed
-* `fetchTrip(stopId, routeId)`
-  * Attempts to get the closest arrival of the route with id `routeId` to the
+- `activeTripError`: string - This is only provided if fetching failed
+- `fetchTrip(stopId, routeId)`
+  - Attempts to get the closest arrival of the route with id `routeId` to the
     stop with id `stopId`
-  * This function only polls the stop for arrivals in the next 60 minutes, and
+  - This function only polls the stop for arrivals in the next 60 minutes, and
     will fail if there are no scheduled or predicted arrivals for the requested
     route at the requested stop
-* `watchTrip(trip)`
-  * Subscribes to updates regarding the status of `trip` every 2 minutes
-* `stopWatchTrip()` - Cancels any subscriptions to `trip` updates
-  * This function must be called before the subscribed component unmounts, or
+- `watchTrip(trip)`
+  - Subscribes to updates regarding the status of `trip` every 2 minutes
+- `stopWatchTrip()` - Cancels any subscriptions to `trip` updates
+  - This function must be called before the subscribed component unmounts, or
     else the application will experience memory leaks
 
 ### **Preferences**
@@ -233,9 +233,9 @@ done to allow multiple components to interact with different trips.
 This component provides data regarding the user's preferences (either chosen or
 default).
 
-* `buzzList` - The list of buzz patterns and their triggers
+- `buzzList` - The list of buzz patterns and their triggers
 
-  * ```javascript
+  - ```javascript
     [
       {
         unit: "stop" | "minute" | "percent",
