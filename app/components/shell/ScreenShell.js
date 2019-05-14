@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, TouchableWithoutFeedback, View } from 'react-native';
+import { Platform, StatusBar, TouchableWithoutFeedback, View } from 'react-native';
 import { config } from '../../config';
 import { SafeAreaView } from 'react-navigation';
 
