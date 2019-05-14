@@ -12,6 +12,6 @@ export default createStackNavigator({
   DirectionSelect: HomeScreen,
   InitialStopSelect: Routes(Stops(Location(InitialStopSelectScreen))),
   FinalStopSelect: HomeScreen,
-  StopsLeftDestinationScreen: StopsLeftDestinationScreen,
+  StopsLeftDestinationScreen: Trip(Preferences(Routes(Stops(Location(StopsLeftDestinationScreen))))),
   Home: HomeScreen,
 }, { headerMode: 'none', initialRouteName: 'Splash' });
