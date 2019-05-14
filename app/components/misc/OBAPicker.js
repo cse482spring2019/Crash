@@ -1,5 +1,5 @@
 import React from 'react';
-import { Picker, View } from 'react-native';
+import { Picker, Platform, View } from 'react-native';
 
 function generateOptions(options) {
   if (options) {
@@ -25,7 +25,7 @@ export default function OBAPicker({ selected, onSelect, style, pickerStyle, opti
       }}
     >
       <Picker
-        style={{ height: 100, ...pickerStyle }}
+        style={Platform.OS === 'android' ? { height: 100, ...pickerStyle } : pickerStyle}
         selectedValue={selected}
         onValueChange={onSelect}
       >

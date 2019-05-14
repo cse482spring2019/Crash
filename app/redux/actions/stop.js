@@ -37,18 +37,20 @@ export function fetchStops(routeId) {
       data = response.data;
     }
     data = data.data;
-    const stops = data.references.stops.reduce(
-      (acc, stop) => acc.set(stop.id, Map(stop)),
-      Map({})
-    );
-    const byDirection = data.entry.stopGroupings[0].stopGroups.reduce(
-      (acc, group) => acc.push(Map({
-        groupId: group.id,
-        direction: group.name.names[0],
-        stops: List(group.stopIds.map(id => stops.get(id))),
-      })),
-      List([])
-    );
-    dispatch(stopFetchAllSuccess(byDirection));
+    if (data) {
+      const stops = data.references.stops.reduce(
+        (acc, stop) => acc.set(stop.id, Map(stop)),
+        Map({})
+      );
+      const byDirection = data.entry.stopGroupings[0].stopGroups.reduce(
+        (acc, group) => acc.push(Map({
+          groupId: group.id,
+          direction: group.name.names[0],
+          stops: List(group.stopIds.map(id => stops.get(id))),
+        })),
+        List([])
+      );
+      dispatch(stopFetchAllSuccess(byDirection));
+    }
   };
 }

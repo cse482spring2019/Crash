@@ -1,19 +1,18 @@
 import React from 'react';
-import { StyleSheet, TouchableNativeFeedback, View } from 'react-native';
-import { config } from '../config';
-import NextButtonText from './text/NextButtonText';
+import { StyleSheet, TouchableHighlight, View } from 'react-native';
+import { config } from '../../config';
+import NextButtonText from '../text/NextButtonText';
 
 export default function NextButton(props) {
   return (
-    <TouchableNativeFeedback
+    <TouchableHighlight
       accessibilityComponentType="button"
       onPress={() => props.onPress(props)}
-      background={TouchableNativeFeedback.SelectableBackground()}
     >
       <View style={{ ...styles.container, ...props.style }}>
         <NextButtonText>{props.children}</NextButtonText>
       </View>
-    </TouchableNativeFeedback>
+    </TouchableHighlight>
   );
 }
 

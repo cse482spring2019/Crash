@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import ScreenShell from './ScreenShell';
 import TitleText from '../text/TitleText';
 import SubTitleText from '../text/SubTitleText';
-import NextButton from '../NextButton';
+import NextButton from '../misc/NextButton';
 
 export default function InputScreenShell(props) {
   const WrappedNextButton =
