@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableNativeFeedback, View } from 'react-native';
-import { config } from '../config';
-import NextButtonText from './text/NextButtonText';
+import { config } from '../../config';
+import NextButtonText from '../text/NextButtonText';
 
 export default function NextButton(props) {
   return (
