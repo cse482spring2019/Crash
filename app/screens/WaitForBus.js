@@ -8,10 +8,10 @@ export default function WaitForBus(props) {
   return (
     <ScreenShell onPress={() => props.navigation.navigate('DisplayBus')}>
       <TitleText style={{ fontWeight: 'bold', marginBottom: 40, fontSize: 50}}>
-            YOU CAN PUT AWAY YOUR PHONE. 
+            WAIT FOR BUZZ NOTIFICATION FOR BUS ARRIVAL.
       </TitleText>
       <TitleText style={{ fontWeight: 'bold', fontSize: 50}}>
-            WAIT FOR BUZZ TO ALERT BUS IS ARRIVING. 
+            TAP ANYWHERE ON SCREEN WHEN PHONE IS BUZZING AND TURN PHONE SIDEWAYS. 
       </TitleText>
     </ScreenShell>
   );
