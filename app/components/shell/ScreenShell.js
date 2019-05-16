@@ -11,7 +11,7 @@ export default function ScreenShell(props) {
       <CustomView
         style={{
           flex: 1,
-          justifyContent: 'center',
+          justifyContent: 'space-around',
           padding: 20,
           backgroundColor: config.colors.shellBackground,
           ...props.style

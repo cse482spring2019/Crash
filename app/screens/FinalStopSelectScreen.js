@@ -16,7 +16,7 @@ export default class FinalStopSelectScreen extends React.Component {
           .getIn([selectedDirection, 'stops'])
           .findIndex(value => value.get('id') === this.state.selectedStop)
       );
-      this.props.navigation.navigate('DoneEnteringInfo');
+      this.props.navigation.navigate('WaitForBus');
     }
   }
 

@@ -4,7 +4,7 @@ import ScreenShell from '../components/shell/ScreenShell';
 import TitleText from '../components/text/TitleText';
 import Buzzer from '../components/misc/Buzzer';
 
-export default class DoneEnteringInfoScreen extends React.Component {
+export default class WaitForBusScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -50,11 +50,11 @@ export default class DoneEnteringInfoScreen extends React.Component {
 
   render() {
     return (
-      <ScreenShell onPress={() => this.props.navigation.navigate('BusNumberDisplay')}>
-        <TitleText style={{ fontWeight: 'bold' }}>
+      <ScreenShell onPress={() => this.props.navigation.navigate('DisplayBus')}>
+        <TitleText style={{ fontWeight: 'bold', fontSize: 50 }}>
           YOU CAN PUT YOUR PHONE AWAY
         </TitleText>
-        <TitleText style={{ fontWeight: 'bold' }}>
+        <TitleText style={{ fontWeight: 'bold', fontSize: 50 }}>
           WAIT FOR BUZZ TO ALERT BUS IS ARRIVING
         </TitleText>
         <Buzzer
