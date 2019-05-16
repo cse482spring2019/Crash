@@ -1,10 +1,16 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScreenOrientation } from 'expo';
 import GeoLocatorView from '../components/GeoLocatorView';
 import { Location, Routes, Stops, Preferences, Trip } from '../containers';
 
 const LocationView = Trip(Preferences(Stops(Routes(Location(GeoLocatorView)))));
 export default class HomeScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -19,9 +25,11 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F7B733',
   },
   contentContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
     paddingTop: 30,
   },
 });
