@@ -10,14 +10,13 @@ export default class FinalStopSelectScreen extends React.Component {
 
   clickNext = () => {
     const { selectedDirection, selectFinalStop, stops } = this.props;
-
     if (this.state.selectedStop !== '') {
       selectFinalStop(
         stops
           .getIn([selectedDirection, 'stops'])
           .findIndex(value => value.get('id') === this.state.selectedStop)
       );
-      this.props.navigation.navigate('Home');
+      this.props.navigation.navigate('WaitForBus');
     }
   }
 

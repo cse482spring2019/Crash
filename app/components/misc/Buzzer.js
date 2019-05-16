@@ -58,8 +58,9 @@ export default class Buzzer extends React.Component {
               this.props.onPress();
             }
           }
-        }>
-        <View {...this.props}>
+        }
+      >
+        <View style={this.props.style}>
           {this.props.children}
         </View>
       </TouchableWithoutFeedback>
