@@ -19,12 +19,11 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
     backgroundColor: '#F7B733',
-    justifyContent: 'space-between',
-    alignItems: 'stretch',
   },
   contentContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
     paddingTop: 30,
   },
 });

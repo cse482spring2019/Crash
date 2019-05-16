@@ -26,9 +26,15 @@ export function routeDirectionSelect(payload) {
 
 // Complex Action Creators
 async function getAgencies() {
-  const response = await Axios.get(getUrl('agencies-with-coverage'), { params: { key: apiKey } });
-  const data = response.data.data;
-  return data.references.agencies;
+  let data = {};
+  let attempts = 0;
+  while (attempts <= maxAttempts && (typeof data !== typeof {} || !data.data)) {
+    const response = await Axios.get(getUrl('agencies-with-coverage'), { params: { key: apiKey } });
+    attempts++;
+    data = response.data;
+  }
+  data = data.data;
+  return data && data.references.agencies;
 }
 
 async function getRoutesForAgency(id) {
@@ -72,8 +78,8 @@ export function fetchRoutes() {
 }
 
 export function selectRoute(route) {
-  return async dispatch => {
-    await dispatch(fetchStops(route.get('id')));
+  return dispatch => {
+    dispatch(fetchStops(route.get('id')));
     dispatch(routeSelect(route));
   };
 }
