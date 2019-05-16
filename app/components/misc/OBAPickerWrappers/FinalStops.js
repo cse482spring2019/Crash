@@ -1,7 +1,7 @@
 import React from 'react';
-import OBAPicker from './misc/OBAPicker';
+import OBAPicker from '../OBAPicker';
 
-function getStops({ selectedDirection, stops }) {
+function getStops({ selectedDirection, selectedInitialStop, stops }) {
   if (
     stops.size > 0
     && selectedDirection !== undefined
@@ -9,6 +9,7 @@ function getStops({ selectedDirection, stops }) {
     return (
       stops
         .getIn([selectedDirection, 'stops'])
+        .slice(selectedInitialStop + 1 || 1)
         .map(stop => ({ value: stop.get('id'), label: stop.get('name') }))
     );
   } else {
@@ -16,7 +17,7 @@ function getStops({ selectedDirection, stops }) {
   }
 }
 
-export default function AllStops(props) {
+export default function FinalStops(props) {
   return (
     <OBAPicker
       options={getStops(props)}

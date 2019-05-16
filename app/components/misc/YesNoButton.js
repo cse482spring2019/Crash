@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableHighlight } from 'react-native';
-import RobotoText from './text/RobotoText';
+import RobotoText from '../text/RobotoText';
 
 export default function YesNoButton(props) {
   return (

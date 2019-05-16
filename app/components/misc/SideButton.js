@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableHighlight } from 'react-native';
-import VerticalText from './VerticalText';
+import VerticalText from '../text/VerticalText';
 
 export default function SideButton(props) {
   return (

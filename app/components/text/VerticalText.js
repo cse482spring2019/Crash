@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import RobotoText from './text/RobotoText';
+import RobotoText from './RobotoText';
 
 export default function VerticalText(props) {
   return (

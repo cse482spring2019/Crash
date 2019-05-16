@@ -4,6 +4,7 @@ import { List, Map } from 'immutable';
 import ScreenShell from '../components/shell/ScreenShell';
 import TitleText from '../components/text/TitleText';
 import Buzzer from '../components/misc/Buzzer';
+import { NavigationEvents } from 'react-navigation';
 
 export default class WaitForBusScreen extends React.Component {
   constructor(props) {
@@ -51,9 +52,29 @@ export default class WaitForBusScreen extends React.Component {
     }
   }
 
+
+
+  onFocus = () => {
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
+
+    const {
+      fetchTrip, selectedDirection, selectedInitialStop, selectedRoute, stops
+    } = this.props;
+    fetchTrip(
+      stops.getIn([selectedDirection, 'stops', selectedInitialStop, 'id']),
+      selectedRoute.get('id')
+    );
+  }
+
+  onBlur = () => this.componentWillUnmount()
+
   render() {
     return (
       <ScreenShell onPress={() => this.props.navigation.navigate('DisplayBus')}>
+        <NavigationEvents
+          onWillFocus={this.onFocus}
+          onDidBlur={this.onBlur}
+        />
         <TitleText style={{ fontWeight: 'bold', fontSize: 50 }}>
           YOU CAN PUT YOUR PHONE AWAY
         </TitleText>

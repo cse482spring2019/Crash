@@ -38,7 +38,7 @@ export function fetchTrip(id, stopId, routeId) {
     while (attempts <= maxAttempts && (typeof data !== typeof {} || !data.data)) {
       const response = await Axios.get(
         getUrl(`arrivals-and-departures-for-stop/${stopId}`),
-        { params: { key: apiKey, minutesBefore: 0, minutesAfter: 1200 } }
+        { params: { key: apiKey, minutesBefore: 0, minutesAfter: 60 } }
       );
       attempts++;
       data = response.data;
