@@ -1,4 +1,5 @@
 import React from 'react';
+import { ScreenOrientation } from 'expo';
 import { List, Map } from 'immutable';
 import ScreenShell from '../components/shell/ScreenShell';
 import TitleText from '../components/text/TitleText';
@@ -7,6 +8,8 @@ import Buzzer from '../components/misc/Buzzer';
 export default class WaitForBusScreen extends React.Component {
   constructor(props) {
     super(props);
+
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
 
     const {
       activeTrip, fetchTrip, selectedDirection, selectedInitialStop, selectedRoute,
