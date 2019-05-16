@@ -10,6 +10,23 @@ const LocationView = Trip(Preferences(Stops(Routes(Location(GeoLocatorView)))));
 
 export default class StopsLeftDestinationScreen extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false};
+    }
+
+    componentDidMount() {
+
+    }
+
+    componentDidUpdate(prevProps) {
+
+    }
+
+    clickNext = () => {
+
+    }
+
     render() {
         <ScreenShell style={{ justifyContent: 'space-between', ...props.style }}>
             <View>

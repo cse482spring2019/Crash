@@ -1,6 +1,6 @@
 import React from 'react';
 import { orderByDistance } from 'geolib';
-import OBAPicker from './misc/OBAPicker';
+import OBAPicker from '../OBAPicker';
 
 function getNearestStops({ location, selectedDirection, stops }) {
   if (
