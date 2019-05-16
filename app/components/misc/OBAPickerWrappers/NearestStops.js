@@ -2,7 +2,7 @@ import React from 'react';
 import { orderByDistance } from 'geolib';
 import OBAPicker from '../OBAPicker';
 
-function getNearestStops({ location, selectedDirection, stops }) {
+export function getNearestStops({ location, selectedDirection, stops }) {
   if (
     location.getIn(['coords', 'longitude'])
     && stops.size > 0
