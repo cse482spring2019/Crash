@@ -1,9 +1,11 @@
-import { Map } from "immutable";
+import { List } from "immutable";
 import { ActionTypes } from "../actions";
 
 /*
-{
-  "0": {
+[
+  ...
+  {
+    "groupId": "0"
     "direction": "Redmond",
     "stops": [
       ...
@@ -27,13 +29,14 @@ import { ActionTypes } from "../actions";
       },
       ...
     ],
-  }
-}
+  },
+  ...
+]
 */
-export function stops(state = Map({}), action) {
+export function stops(state = List(), action) {
   switch (action.type) {
     case ActionTypes.STOP.FETCH_ALL.SUCCESS:
-      return state.merge(action.payload);
+      return action.payload;
     default:
       return state;
   }

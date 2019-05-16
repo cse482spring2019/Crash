@@ -24,7 +24,7 @@ import { config } from '../../config';
     "shortName": "70",
     ...
   },
-  direction: "0",
+  direction: 0,
   initialStop: 4,
   finalStop: 7,
   trip: {
@@ -82,7 +82,6 @@ export function selection(state = initialState, action) {
     case ActionTypes.TRIP.WATCH.STOP:
       sub = state.getIn(['trip', action.payload, 'sub']);
       if (sub) {
-        console.log('cancelling!');
         sub.cancel();
       }
       return state.setIn(['trip', action.payload, 'sub'], null);

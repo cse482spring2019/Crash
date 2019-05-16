@@ -11,7 +11,7 @@ export default class Buzzer extends React.Component {
   shouldBuzz(buzz) {
     const unit = buzz.get('unit');
     const value = buzz.get('value');
-    const { trip, stops, stopIndex } = this.props;
+    const { trip, stops } = this.props;
     switch (unit) {
       case 'stop':
         return trip && value === trip.get('numberOfStopsAway');
@@ -51,7 +51,6 @@ export default class Buzzer extends React.Component {
   render() {
     return (
       <TouchableWithoutFeedback
-        {...this.props}
         onPress={
           () => {
             Vibration.cancel();
@@ -60,7 +59,7 @@ export default class Buzzer extends React.Component {
             }
           }
         }>
-        <View>
+        <View {...this.props}>
           {this.props.children}
         </View>
       </TouchableWithoutFeedback>
