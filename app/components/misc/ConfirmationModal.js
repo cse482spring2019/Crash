@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
-import RobotoText from './text/RobotoText';
+import RobotoText from '../text/RobotoText';
 import YesNoButton from './YesNoButton';
-import { config } from '../config';
+import { config } from '../../config';
 
 export default function ConfirmationModal(props) {
   return (

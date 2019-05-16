@@ -1,6 +1,6 @@
 import React from 'react';
 import InputScreenShell from '../components/shell/InputScreenShell';
-import FinalStops from '../components/FinalStops';
+import FinalStops from '../components/misc/OBAPickerWrappers/FinalStops';
 
 export default class FinalStopSelectScreen extends React.Component {
   constructor(props) {

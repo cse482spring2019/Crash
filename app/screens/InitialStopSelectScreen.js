@@ -1,7 +1,7 @@
 import React from 'react';
 import InputScreenShell from '../components/shell/InputScreenShell';
-import NearestStops from '../components/NearestStops';
-import AllStops from '../components/AllStops';
+import NearestStops from '../components/misc/OBAPickerWrappers/NearestStops';
+import AllStops from '../components/misc/OBAPickerWrappers/AllStops';
 export default class InitialStopSelectScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -9,24 +9,8 @@ export default class InitialStopSelectScreen extends React.Component {
   }
 
   componentWillMount() {
-    const { fetchLocation, selectDirection, selectedDirection, selectRoute, stops, routes } = this.props;
+    const { fetchLocation } = this.props;
     fetchLocation();
-    if (selectedDirection === undefined && stops.get(0)) {
-      selectDirection(0);
-    } else if (routes.size > 0) {
-      selectRoute(routes.get('542'));
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { pStops, pRoutes } = prevProps;
-    const { selectRoute, selectDirection, stops, routes } = this.props;
-    if ((!pRoutes || pRoutes.size === 0) && routes.size > 0) {
-      selectRoute(routes.get('542'));
-    }
-    if ((!pStops || !pStops.get(0)) && stops.get(0)) {
-      selectDirection(0);
-    }
   }
 
   clickNext = () => {

@@ -7,21 +7,21 @@ import {
   View,
 } from 'react-native';
 import { ScreenOrientation } from 'expo';
-import { SafeAreaView } from 'react-navigation';
+import { SafeAreaView, NavigationEvents } from 'react-navigation';
 import { List, Map } from 'immutable';
 
 import Buzzer from '../components/misc/Buzzer';
 import RobotoText from '../components/text/RobotoText';
-import SideButton from '../components/SideButton';
-import ConfirmationModal from '../components/ConfirmationModal';
+import SideButton from '../components/misc/SideButton';
+import ConfirmationModal from '../components/misc/ConfirmationModal';
 import { config } from '../config';
 
 export default class BusNumberDisplayScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = { modalVisible: false };
-    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
 
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
     const {
       activeTrip, fetchTrip, selectedDirection, selectedInitialStop, selectedRoute,
       stops
@@ -62,12 +62,30 @@ export default class BusNumberDisplayScreen extends React.Component {
     }
   }
 
+  onFocus = () => {
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.LANDSCAPE);
+
+    const {
+      fetchTrip, selectedDirection, selectedInitialStop, selectedRoute, stops
+    } = this.props;
+    fetchTrip(
+      stops.getIn([selectedDirection, 'stops', selectedInitialStop, 'id']),
+      selectedRoute.get('id')
+    );
+  }
+
+  onBlur = () => this.componentWillUnmount()
+
   render() {
     const CustomView = Platform.OS === 'android' ? View : SafeAreaView
 
     return (
       <CustomView style={styles.screen}>
         <StatusBar hidden />
+        <NavigationEvents
+          onWillFocus={this.onFocus}
+          onDidBlur={this.onBlur}
+        />
         <View style={styles.main}>
           <RobotoText style={styles.confirmationText}>
             can you confirm I am getting on
