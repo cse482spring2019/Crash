@@ -9,7 +9,7 @@ export default class InitialStopSelectScreen extends React.Component {
   }
 
   componentWillMount() {
-    const { fetchLocation, location, stops, selectedDirection } = this.props;
+    const { fetchLocation, location } = this.props;
     if (location.get('coords')) {
       this.setState({
         selectedStop: getNearestStops(this.props)[0].value,

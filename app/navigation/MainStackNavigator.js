@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import HomeScreen from '../screens/HomeScreen';
 import SplashScreen from '../screens/SplashScreen';
+import ChooseRouteScreen from '../screens/ChooseRouteScreen';
 import DirectionSelectScreen from '../screens/DirectionSelectScreen';
 import InitialStopSelectScreen from '../screens/InitialStopSelectScreen';
 import FinalStopSelectScreen from '../screens/FinalStopSelectScreen';
@@ -16,8 +16,8 @@ const WrappedStopsLeftDestinationScreen = Preferences(Routes(Stops(Trip(StopsLef
 
 export default createStackNavigator({
   Splash: SplashScreen,
-  RouteSelect: HomeScreen,
-  DirectionSelect: Routes(Stops(DirectionSelectScreen)),
+  RouteSelect: Routes(ChooseRouteScreen),
+  DirectionSelect: Stops(DirectionSelectScreen),
   InitialStopSelect: Stops(Location(InitialStopSelectScreen)),
   FinalStopSelect: Stops(FinalStopSelectScreen),
   WaitForBus: props => <WrappedWaitForBusScreen {...props} tripKey="busNumberDisplay" />,
