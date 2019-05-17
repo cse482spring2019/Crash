@@ -1,73 +1,114 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-//import GeoLocatorView from '../components/GeoLocatorView';
+import { Vibration, View, StyleSheet } from 'react-native';
+import { ScreenOrientation } from 'expo';
 import ScreenShell from '../components/shell/ScreenShell';
-import InputScreenShell from '../components/shell/InputScreenShell';
 import TitleText from '../components/text/TitleText';
-import SubTitleText from '../components/text/SubTitleText'
-import { Location, Routes, Stops, Preferences, Trip } from '../containers';
-
-
-//trip location details for showing on the screen. 
-//const LocationView = Trip(Preferences(Stops(Routes(Location(GeoLocatorView)))));
+import Buzzer from '../components/misc/Buzzer';
+import { config } from '../config';
 
 export default class StopsLeftDestinationScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
+    const {
+      fetchTrip, selectedDirection, selectedFinalStop, selectedRoute, stops
+    } = this.props;
+    fetchTrip(
+      stops.getIn([selectedDirection, 'stops', selectedFinalStop, 'id']),
+      selectedRoute.get('id')
+    );
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = { hasError: false, arrived: true};
+  componentDidUpdate(prevProps) {
+    const { activeTrip, watchTrip } = this.props;
+    if (activeTrip) {
+      if (
+        !prevProps.activeTrip
+        || prevProps.activeTrip.get('id') !== activeTrip.get('id')
+      ) {
+        watchTrip(activeTrip);
+      }
     }
+  }
 
-    componentDidMount() {
-
+  componentWillUnmount() {
+    const { activeTrip, stopWatchTrip } = this.props;
+    if (activeTrip) {
+      stopWatchTrip(activeTrip);
     }
+  }
 
-    componentDidUpdate(prevProps) {
+  onFocus = () => {
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
 
-    }
+    const {
+      fetchTrip, selectedDirection, selectedFinalStop, selectedRoute, stops
+    } = this.props;
+    fetchTrip(
+      stops.getIn([selectedDirection, 'stops', selectedFinalStop, 'id']),
+      selectedRoute.get('id')
+    );
+  }
 
-    clickNext = () => {
+  onBlur = () => this.componentWillUnmount()
 
-    }
-
-    render() {
-        if (!this.state.arrived) {
-            return(<ScreenShell style={{ justifyContent: 'space-between'}}>
-            <View>
-                <TitleText>Waiting On Bus</TitleText>
-                <SubTitleText>Feel free to put your phone away</SubTitleText>
-            </View>
-            <View>
-                <SubTitleText>Your bus is </SubTitleText>
-                <View style= {{backgroundColor: 'red'}}>
-                    <SubTitleText>5</SubTitleText>
-                </View> 
-                <SubTitleText>stops away</SubTitleText>
-            </View>
-            </ScreenShell>);
-        } else { //getting here 
-            return (
-                <ScreenShell>
-                    <TitleText style={{ fontWeight: 'bold' }}>
-                        ARRIVED AT LOCATION
-                    </TitleText>
-                    <SubTitleText>
-                        TAP ANYWHERE TO STOP BUZZING
-                    </SubTitleText>
-                </ScreenShell>
-            );
+  render() {
+    const { activeTrip, buzzList, navigation, stops } = this.props;
+    return (
+      <ScreenShell
+        onPress={() => {
+          Vibration.cancel();
+          if (activeTrip && activeTrip.get('numberOfStopsAway') <= 0) {
+            navigation.popToTop();
+          }
+        }}
+      >
+        {
+          activeTrip && activeTrip.get('numberOfStopsAway') <= 0
+            ? [
+              <TitleText key="arrived" style={styles.titleText}>
+                ARRIVED AT LOCATION
+              </TitleText>,
+              <TitleText key="tapToStop" style={styles.titleText}>
+                TAP ANYWHERE TO STOP THE BUZZING
+              </TitleText>
+            ]
+            : [
+              <TitleText key="putYourPhoneAway" style={styles.titleText}>
+                YOU CAN PUT AWAY YOUR PHONE
+              </TitleText>,
+              <View key="number" style={styles.numberBox}>
+                <TitleText style={styles.number}>
+                  {activeTrip ? activeTrip.get('numberOfStopsAway') : '...'}
+                </TitleText>
+              </View>,
+              <TitleText key="stopsAway" style={styles.titleText}>
+                STOPS AWAY
+              </TitleText>
+            ]
         }
-        
-    }
+        <Buzzer
+          trip={activeTrip}
+          buzzList={buzzList}
+          stops={stops}
+        />
+      </ScreenShell>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-    },
-    contentContainer: {
-      paddingTop: 30,
-    },
-  });
-  
+  titleText: {
+    fontWeight: 'bold',
+    fontSize: 50,
+  },
+  numberBox: {
+    alignSelf: 'center',
+    aspectRatio: 1,
+    backgroundColor: config.colors.nextButtonBackground,
+  },
+  number: {
+    fontWeight: 'bold',
+    fontSize: 130,
+  },
+});

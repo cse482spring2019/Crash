@@ -118,7 +118,7 @@ export default class BusNumberDisplayScreen extends React.Component {
           onYes={() => {
             Vibration.vibrate(300);
             this.setState({ modalVisible: false });
-            this.props.navigation.navigate('RidingOnBus');
+            this.props.navigation.navigate('StopsLeft');
           }}
           onNo={() => this.setState({ modalVisible: false })}
         />
