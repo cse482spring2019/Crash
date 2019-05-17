@@ -8,20 +8,6 @@ export default class InitialStopSelectScreen extends React.Component {
     this.state = { selectedDir: '' };
   }
 
-  componentWillMount() {
-    const { selectRoute, routes} = this.props;
-    if (routes.size > 0) {
-      selectRoute(routes.get('542'));
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { selectRoute, routes } = this.props;
-    if ((!prevProps.routes || prevProps.routes.size === 0) && routes.size > 0) {
-      selectRoute(routes.get('542'));
-    }
-  }
-
   clickNext = () => {
     const { selectDirection, stops } = this.props;
 
