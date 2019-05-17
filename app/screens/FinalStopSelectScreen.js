@@ -5,7 +5,14 @@ import FinalStops from '../components/misc/OBAPickerWrappers/FinalStops';
 export default class FinalStopSelectScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { selectedStop: '' };
+    this.state = {
+      selectedStop: props.stops.getIn([
+        props.selectedDirection,
+        'stops',
+        props.selectedInitialStop + 1,
+        'id'
+      ])
+    };
   }
 
   clickNext = () => {
@@ -30,7 +37,7 @@ export default class FinalStopSelectScreen extends React.Component {
       >
         <FinalStops
           selected={this.state.selectedStop}
-          onSelect={(id) => this.setState({ selectedStop: id })}
+          onSelect={id => this.setState({ selectedStop: id })}
           {...this.props}
         />
       </InputScreenShell>

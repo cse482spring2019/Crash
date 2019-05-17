@@ -59,7 +59,7 @@ export function fetchTrip(id, stopId, routeId) {
 }
 
 class TripWatcher {
-  secondsInterval = 1;
+  secondsInterval = 30;
 
   constructor(id, dispatch, trip) {
     this.active = true;
