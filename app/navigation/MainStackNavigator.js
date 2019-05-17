@@ -16,7 +16,7 @@ const WrappedBusNumberDisplayScreen = Routes(Stops(Trip(BusNumberDisplayScreen))
 export default createStackNavigator({
   Splash: SplashScreen,
   RouteSelect: HomeScreen,
-
+  //Splash: StopsLeftDestinationScreen,
   DirectionSelect: Routes(Stops(DirectionSelectScreen)),
   InitialStopSelect: Stops(Location(InitialStopSelectScreen)),
   FinalStopSelect: Stops(FinalStopSelectScreen),
