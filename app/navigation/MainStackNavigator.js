@@ -8,10 +8,12 @@ import InitialStopSelectScreen from '../screens/InitialStopSelectScreen';
 import FinalStopSelectScreen from '../screens/FinalStopSelectScreen';
 import WaitForBusScreen from '../screens/WaitForBusScreen';
 import BusNumberDisplayScreen from '../screens/BusNumberDisplayScreen';
-import { Routes, Stops, Location, Trip } from '../containers';
+import { RidingOnBusScreen } from '../screens/RidingOnBusScreen';
+import { Routes, Stops, Location, Trip, Preferences } from '../containers';
 
 const WrappedWaitForBusScreen = Routes(Stops(Trip(WaitForBusScreen)));
 const WrappedBusNumberDisplayScreen = Routes(Stops(Trip(BusNumberDisplayScreen)));
+const WrappedRidingOnBusScreen = Preferences(Routes(Stops(Trip(RidingOnBusScreen))));
 
 export default createStackNavigator({
   Splash: SplashScreen,
@@ -22,5 +24,5 @@ export default createStackNavigator({
   FinalStopSelect: Stops(FinalStopSelectScreen),
   WaitForBus: props => <WrappedWaitForBusScreen {...props} tripKey="busNumberDisplay" />,
   DisplayBus: props => <WrappedBusNumberDisplayScreen {...props} tripKey="busNumberDisplay" />,
-  Home: HomeScreen,
+  RidingOnBus: props => <WrappedRidingOnBusScreen {...props} tripKey="ridingOnBus" />,
 }, { headerMode: 'none', initialRouteName: 'Splash' });
