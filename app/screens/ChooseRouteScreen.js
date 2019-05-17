@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { Alert, StyleSheet, TextInput, Text } from 'react-native';
 import InputScreenShell from '../components/shell/InputScreenShell';
 
 

@@ -27,13 +27,11 @@ export function stopSelectFinal(idx) {
 export function fetchStops(routeId) {
   return async dispatch => {
     let data = {};
-    let attempts = 0;
-    while (attempts <= maxAttempts && (typeof data !== typeof {} || !data.data)) {
+    while ((typeof data !== typeof {} || !data.data)) {
       const response = await Axios.get(
         getUrl(`stops-for-route/${routeId}`),
         { params: { key: apiKey } }
       );
-      attempts++;
       data = response.data;
     }
     data = data.data;

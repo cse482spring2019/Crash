@@ -27,10 +27,8 @@ export function routeDirectionSelect(payload) {
 // Complex Action Creators
 async function getAgencies() {
   let data = {};
-  let attempts = 0;
-  while (attempts <= maxAttempts && (typeof data !== typeof {} || !data.data)) {
+  while ((typeof data !== typeof {} || !data.data)) {
     const response = await Axios.get(getUrl('agencies-with-coverage'), { params: { key: apiKey } });
-    attempts++;
     data = response.data;
   }
   data = data.data;
@@ -40,13 +38,16 @@ async function getAgencies() {
 async function getRoutesForAgency(id) {
   try {
     let data = {};
-    let attempts = 0;
-    while (attempts <= maxAttempts && !data.data) {
-      const response = await Axios.get(getUrl(`routes-for-agency/${id}`), { params: { key: apiKey } });
-      attempts++;
+    let response;
+    while (!data.data) {
+      response = await Axios.get(getUrl(`routes-for-agency/${id}`), { params: { key: apiKey } });
       data = response.data;
     }
-    return data.data.list;
+    if (data.data) {
+      return data.data.list;
+    } else {
+      return [];
+    }
   } catch (err) {
     console.error(err);
   }

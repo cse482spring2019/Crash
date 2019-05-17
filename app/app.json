@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "OneBuzzAway",
-    "slug": "proj",
+    "slug": "onebuzzaway",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -79,6 +79,8 @@
           }
         }
       ]
-    }
+    },
+    "description": "OneBuzzAway is designed to aid member of the BlindDeaf community navigate public transportation by buzzing to inform them of the state of their bus.",
+    "githubUrl": "https://github.com/cse482spring2019/Crash"
   }
 }

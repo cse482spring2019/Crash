@@ -34,13 +34,11 @@ export function tripWatchStop(id) {
 export function fetchTrip(id, stopId, routeId) {
   return async dispatch => {
     let data = {};
-    let attempts = 0;
-    while (attempts <= maxAttempts && (typeof data !== typeof {} || !data.data)) {
+    while ((typeof data !== typeof {} || !data.data)) {
       const response = await Axios.get(
         getUrl(`arrivals-and-departures-for-stop/${stopId}`),
         { params: { key: apiKey, minutesBefore: 0, minutesAfter: 60 } }
       );
-      attempts++;
       data = response.data;
     }
     if (typeof data !== typeof {} || !data.data) dispatch(tripFetchFailure(id, 'Failed to fetch data'));
@@ -77,8 +75,7 @@ class TripWatcher {
     if (this.active) {
       const { stopId, tripId, serviceDate, vehicleId, stopSequence } = this;
       let data = {};
-      let attempts = 0;
-      while (attempts <= maxAttempts && (typeof data !== typeof {} || !data.data)) {
+      while ((typeof data !== typeof {} || !data.data)) {
         const response = await Axios.get(
           getUrl(`arrival-and-departure-for-stop/${stopId}`),
           {
@@ -88,7 +85,6 @@ class TripWatcher {
             ),
           }
         );
-        attempts++;
         data = response.data;
       }
 
