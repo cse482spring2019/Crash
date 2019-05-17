@@ -1,6 +1,7 @@
 // Library imports
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { useScreens } from 'react-native-screens';
 import { AppLoading, Font } from 'expo';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -9,7 +10,9 @@ import thunkMiddleware from 'redux-thunk';
 // Local imports
 import AppNavigator from './navigation/AppNavigator';
 import rootReducer from './redux/reducers';
-import { stopWatchLocation, watchLocation, fetchRoutes, fetchSavedBuzzPatterns } from './redux/actions';
+import { fetchRoutes, fetchSavedBuzzPatterns } from './redux/actions';
+
+useScreens();
 
 export const store = createStore(
   rootReducer,
@@ -26,10 +29,6 @@ export default class App extends React.Component {
   componentWillMount() {
     store.dispatch(fetchSavedBuzzPatterns());
     store.dispatch(fetchRoutes());
-    // store.dispatch(watchLocation());
-  }
-  componentWillUnmount() {
-    // store.dispatch(stopWatchLocation());
   }
 
   render() {

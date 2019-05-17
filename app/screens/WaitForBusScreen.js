@@ -52,8 +52,6 @@ export default class WaitForBusScreen extends React.Component {
     }
   }
 
-
-
   onFocus = () => {
     ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
 
@@ -76,7 +74,7 @@ export default class WaitForBusScreen extends React.Component {
           onDidBlur={this.onBlur}
         />
         <TitleText style={{ fontWeight: 'bold', fontSize: 50 }}>
-          YOU CAN PUT YOUR PHONE AWAY
+          YOU CAN PUT AWAY YOUR PHONE
         </TitleText>
         <TitleText style={{ fontWeight: 'bold', fontSize: 50 }}>
           WAIT FOR BUZZ TO ALERT BUS IS ARRIVING
