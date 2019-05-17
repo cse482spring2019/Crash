@@ -9,7 +9,7 @@ export default class InitialStopSelectScreen extends React.Component {
   }
 
   componentWillMount() {
-    const { selectRoute, routes } = this.props;
+    const { selectRoute, routes} = this.props;
     if (routes.size > 0) {
       selectRoute(routes.get('542'));
     }
