@@ -4,8 +4,9 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import ScreenShell from '../components/shell/ScreenShell';
 import InputScreenShell from '../components/shell/InputScreenShell';
 import TitleText from '../components/text/TitleText';
+import SubTitleText from '../components/text/SubTitleText'
 import { Location, Routes, Stops, Preferences, Trip } from '../containers';
-import InputScreenShell from '../components/shell/InputScreenShell';
+
 
 //trip location details for showing on the screen. 
 //const LocationView = Trip(Preferences(Stops(Routes(Location(GeoLocatorView)))));
@@ -30,26 +31,30 @@ export default class StopsLeftDestinationScreen extends React.Component {
     }
 
     render() {
-        if (!arrived) {
-            return(<ScreenShell style={{ justifyContent: 'space-between', ...props.style }}>
+        if (!this.state.arrived) {
+            return(<ScreenShell style={{ justifyContent: 'space-between'}}>
             <View>
                 <TitleText>Waiting On Bus</TitleText>
                 <SubTitleText>Feel free to put your phone away</SubTitleText>
             </View>
             <View>
-                <LocationView watchLocation tripKey="endLocation" />
-                Your bus is 
+                <SubTitleText>Your bus is </SubTitleText>
                 <View style= {{backgroundColor: 'red'}}>
-                    5
+                    <SubTitleText>5</SubTitleText>
                 </View> 
-                stops away
+                <SubTitleText>stops away</SubTitleText>
             </View>
             </ScreenShell>);
         } else { //getting here 
             return (
-                <InputScreenShell titleText="Arrived at location"
-                subTitleText="TAP ANYWHERE TO STOP BUZZING">
-                </InputScreenShell>
+                <ScreenShell>
+                    <TitleText style={{ fontWeight: 'bold' }}>
+                        ARRIVED AT LOCATION
+                    </TitleText>
+                    <SubTitleText>
+                        TAP ANYWHERE TO STOP BUZZING
+                    </SubTitleText>
+                </ScreenShell>
             );
         }
         
