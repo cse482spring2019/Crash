@@ -8,7 +8,7 @@ function getDirections({ stops }) {
     return stops.map(dir => ({
       value: dir.get('groupId'),
       label: dir.get('direction')
-    }));
+    })).toJS();
   } else {
     null;
   }

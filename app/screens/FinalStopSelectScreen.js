@@ -1,5 +1,5 @@
 import React from 'react';
-import InputScreenShell from '../components/shell/InputScreenShell';
+import SelectScreenShell from '../components/shell/SelectScreenShell';
 import FinalStops from '../components/misc/OBAPickerWrappers/FinalStops';
 
 export default class FinalStopSelectScreen extends React.Component {
@@ -16,31 +16,26 @@ export default class FinalStopSelectScreen extends React.Component {
   }
 
   clickNext = () => {
-    const { selectedDirection, selectFinalStop, stops } = this.props;
     if (this.state.selectedStop !== '') {
-      selectFinalStop(
-        stops
-          .getIn([selectedDirection, 'stops'])
-          .findIndex(value => value.get('id') === this.state.selectedStop)
-      );
-      this.props.navigation.navigate('WaitForBus');
     }
   }
 
   render() {
     return (
-      <InputScreenShell
-        titleText="SELECT FINAL STOP"
-        subTitleText="and press done when finished"
-        nextButtonText="DONE"
-        clickNext={this.clickNext}
-      >
+      <SelectScreenShell titleText="SELECT FINAL STOP">
         <FinalStops
-          selected={this.state.selectedStop}
-          onSelect={id => this.setState({ selectedStop: id })}
+          onSelect={id => {
+            const { navigation, selectedDirection, selectFinalStop, stops } = this.props;
+            selectFinalStop(
+              stops
+                .getIn([selectedDirection, 'stops'])
+                .findIndex(value => value.get('id') === id)
+            );
+            navigation.navigate('WaitForBus');
+          }}
           {...this.props}
         />
-      </InputScreenShell>
+      </SelectScreenShell>
     );
   }
 }

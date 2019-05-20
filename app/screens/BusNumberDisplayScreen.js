@@ -2,9 +2,9 @@ import React from 'react';
 import {
   Platform,
   StyleSheet,
-  StatusBar,
   Vibration,
   View,
+  Text
 } from 'react-native';
 import { ScreenOrientation } from 'expo';
 import { SafeAreaView, NavigationEvents } from 'react-navigation';
@@ -77,38 +77,55 @@ export default class BusNumberDisplayScreen extends React.Component {
   onBlur = () => this.componentWillUnmount()
 
   render() {
-    const CustomView = Platform.OS === 'android' ? View : SafeAreaView
+    const CustomView = Platform.OS === 'android' ? View : SafeAreaView;
+
+    const busNum = this.props.activeTrip ? this.props.activeTrip.get('routeShortName') : '...';
+    const x = busNum.length;
+    const a = 1102.3;
+    const b = -1.05412;
+    const eqn = (a * Math.pow(x, b));
 
     return (
       <CustomView style={styles.screen}>
-        <StatusBar hidden />
         <NavigationEvents
           onWillFocus={this.onFocus}
           onDidBlur={this.onBlur}
         />
         <View style={styles.main}>
-          <RobotoText style={styles.confirmationText}>
-            can you confirm I am getting on
+          <RobotoText bold style={styles.confirmationText}>
+            AM I GETTING ON BUS
           </RobotoText>
-          <RobotoText style={styles.busNumber}>
-            {
-              this.props.activeTrip
-                ? this.props.activeTrip.get('routeShortName')
-                : '...'
-            }
-          </RobotoText>
+          <View style={styles.busNumberContainer}>
+            <Text
+              style={{
+                ...styles.busNumber,
+                fontSize: Math.max(Math.min(400, eqn), 0)
+              }}
+            >
+              {busNum}
+            </Text>
+          </View>
         </View>
         <View>
           <SideButton
-            onPress={() => this.setState({ modalVisible: true })}
-            color={config.colors.shellBackground}
+            onPress={() => {
+              Vibration.vibrate(300);
+              this.setState({ modalVisible: true });
+            }}
+            color={config.colors.contentBox}
             text="YES"
           />
           <SideButton
-            onPress={() => Vibration.vibrate(
-              Platform.OS === 'android' ? [300, 300, 300, 300] : [300, 300]
-            )}
-            color={config.colors.nextButtonBackground}
+            onPress={() => {
+              const f = (lst = [600, 600]) => {
+                if (lst.length > 0) {
+                  Vibration.vibrate(400);
+                  setTimeout(() => f(lst.slice(1)), lst[0]);
+                }
+              }
+              setTimeout(f, 0);
+            }}
+            color={config.colors.warning}
             text="NO"
           />
         </View>
@@ -118,7 +135,7 @@ export default class BusNumberDisplayScreen extends React.Component {
           onYes={() => {
             Vibration.vibrate(300);
             this.setState({ modalVisible: false });
-            this.props.navigation.navigate('StopsLeft');
+            this.props.navigation.navigate('StopsLeft', { trip: this.props.activeTrip });
           }}
           onNo={() => this.setState({ modalVisible: false })}
         />
@@ -141,22 +158,27 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#F7B733',
+    backgroundColor: config.colors.backgroundText,
   },
   main: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   confirmationText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 34
+    color: config.colors.background,
+    padding: 10,
+    fontSize: 27
+  },
+  busNumberContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
   busNumber: {
-    marginTop: -70,
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 200
+    marginTop: Platform.OS === 'ios' ? -50 : 0,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    fontFamily: 'RobotoMono',
+    color: config.colors.background,
   },
 });

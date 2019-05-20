@@ -1,36 +1,37 @@
 import React from 'react';
-import { Picker, Platform, View } from 'react-native';
+import { TouchableHighlight, View } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
+import SubTitleText from '../text/SubTitleText';
+import { config } from '../../config';
 
-function generateOptions(options) {
-  if (options) {
-    return (
-      options
-        .map(option =>
-          <Picker.Item key={option.value} label={option.label} value={option.value} />
-        )
-    );
-  } else {
-    return <Picker.Item label="Loading options..." value="" />
-  }
-}
-
-export default function OBAPicker({ selected, onSelect, style, pickerStyle, options }) {
+export default function OBAPicker({ onSelect, options }) {
   return (
-    <View
-      style={{
-        margin: 10,
-        borderRadius: 20,
-        backgroundColor: 'white',
-        ...style
-      }}
-    >
-      <Picker
-        style={Platform.OS === 'android' ? { height: 100, ...pickerStyle } : pickerStyle}
-        selectedValue={selected}
-        onValueChange={onSelect}
-      >
-        {generateOptions(options)}
-      </Picker>
-    </View>
+    <FlatList
+      data={options || [{ value: '', label: 'Loading...' }]}
+      keyExtractor={item => item.value}
+      renderItem={({ item }) => (
+        <TouchableHighlight
+          accessibilityComponentType="button"
+          onPress={() => onSelect(item.value)}
+        >
+          <View
+            style={{
+              padding: 30,
+              marginBottom: 20,
+              backgroundColor: config.colors.contentBox,
+            }}
+          >
+            <SubTitleText
+              bold
+              style={{ color: config.colors.contentText }}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {item.label}
+            </SubTitleText>
+          </View>
+        </TouchableHighlight>
+      )}
+    />
   );
 }

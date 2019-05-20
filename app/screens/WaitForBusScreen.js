@@ -5,23 +5,12 @@ import ScreenShell from '../components/shell/ScreenShell';
 import TitleText from '../components/text/TitleText';
 import Buzzer from '../components/misc/Buzzer';
 import { NavigationEvents } from 'react-navigation';
+import SubTitleText from '../components/text/SubTitleText';
 
 export default class WaitForBusScreen extends React.Component {
   constructor(props) {
     super(props);
-
-    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
-
-    const {
-      activeTrip, fetchTrip, selectedDirection, selectedInitialStop, selectedRoute,
-      stops
-    } = props;
-    if (!activeTrip) {
-      fetchTrip(
-        stops.getIn([selectedDirection, 'stops', selectedInitialStop, 'id']),
-        selectedRoute.get('id')
-      );
-    }
+    this.componentDidUpdate();
   }
 
   componentDidUpdate(prevProps) {
@@ -35,10 +24,11 @@ export default class WaitForBusScreen extends React.Component {
           stops.getIn([selectedDirection, 'stops', selectedInitialStop, 'id']),
           selectedRoute.get('id')
         );
-      }
-      if (
-        !prevProps.activeTrip
-        || prevProps.activeTrip.get('id') !== activeTrip.get('id')
+      } else if (
+        prevProps && (
+          !prevProps.activeTrip
+          || prevProps.activeTrip.get('id') !== activeTrip.get('id')
+        )
       ) {
         watchTrip(activeTrip);
       }
@@ -53,7 +43,7 @@ export default class WaitForBusScreen extends React.Component {
   }
 
   onFocus = () => {
-    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.ALL);
 
     const {
       fetchTrip, selectedDirection, selectedInitialStop, selectedRoute, stops
@@ -68,17 +58,38 @@ export default class WaitForBusScreen extends React.Component {
 
   render() {
     return (
-      <ScreenShell onPress={() => this.props.navigation.navigate('DisplayBus')}>
+      <ScreenShell
+        onPress={() => {
+          if (this.props.activeTrip) {
+            this.props.navigation.navigate('DisplayBus');
+          }
+        }}
+      >
         <NavigationEvents
           onWillFocus={this.onFocus}
           onDidBlur={this.onBlur}
         />
-        <TitleText style={{ fontWeight: 'bold', fontSize: 50 }}>
-          YOU CAN PUT AWAY YOUR PHONE
-        </TitleText>
-        <TitleText style={{ fontWeight: 'bold', fontSize: 50 }}>
-          WAIT FOR BUZZ TO ALERT BUS IS ARRIVING
-        </TitleText>
+        {
+          this.props.activeTripError
+            ? [
+              <TitleText key="noArrivals" bold style={{ fontSize: 50 }}>
+                NO BUSES OF THIS ROUTE WILL ARRIVE IN THE NEXT 60 MINUTES
+              </TitleText>,
+              <SubTitleText key="tryAgain" style={{ fontSize: 36 }}>
+                PLEASE SELECT A DIFFERENT ROUTE OR TRY AGAIN LATER
+              </SubTitleText>
+            ]
+            : this.props.activeTrip
+              ? [
+                <TitleText key="waitForBus" bold style={{ fontSize: 50 }}>
+                  WAIT FOR BUZZ TO ALERT BUS IS ARRIVING
+              </TitleText>,
+                <SubTitleText key="tapAnywhere" style={{ fontSize: 36 }}>
+                  TAP ANYWHERE TO STOP THE BUZZING
+              </SubTitleText>
+              ]
+              : <TitleText bold style={{ fontSize: 50 }}>Loading...</TitleText>
+        }
         <Buzzer
           buzzList={List([
             Map({

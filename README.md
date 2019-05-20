@@ -54,7 +54,6 @@ our application screens:
       top, a "NEXT" button at the bottom, and children in between
     - Accepted props:
       - `titleText`
-      - `subTitleText`
       - `nextButtonText` - Default value is "NEXT"
       - `clickNext(props)` - Function to call when the "NEXT" button is clicked
         - The props available to the "NEXT" button are provided as an argument

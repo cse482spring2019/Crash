@@ -6,7 +6,7 @@ import TitleText from '../components/text/TitleText';
 export default function SplashScreen(props) {
   return (
     <ScreenShell onPress={() => props.navigation.navigate('RouteSelect')}>
-      <TitleText style={{ fontWeight: 'bold' }}>
+      <TitleText bold>
         TAP ANYWHERE TO BEGIN
       </TitleText>
     </ScreenShell>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Alert, StyleSheet, TextInput, Text } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 import InputScreenShell from '../components/shell/InputScreenShell';
-
+import { config } from '../config';
 
 export default class ChooseRouteScreen extends React.Component {
   constructor(props) {
@@ -10,10 +10,15 @@ export default class ChooseRouteScreen extends React.Component {
   }
 
   clickNext = () => {
-    const route = this.props.routes.get(this.state.routeNum);
-    if (route) {
-      this.props.selectRoute(route);
+    const filteredRoutes = this.props.routes.filter(route => {
+      return route.get('shortName').toLowerCase() === this.state.routeNum.toLowerCase()
+        || route.get('longName').toLowerCase() === this.state.routeNum.toLowerCase()
+    });
+    if (filteredRoutes.size === 1) {
+      this.props.selectRoute(filteredRoutes.get(0));
       this.props.navigation.navigate('DirectionSelect');
+    } else if (filteredRoutes.size > 1) {
+      this.props.navigation.navigate('ConfirmRoute', { routeNum: this.state.routeNum });
     }
   }
 
@@ -21,10 +26,13 @@ export default class ChooseRouteScreen extends React.Component {
     return (
       <InputScreenShell
         titleText="ENTER BUS NUMBER"
-        subTitleText="and press next to continue"
         clickNext={this.clickNext}>
         <TextInput
           style={styles.input}
+          autoCorrect={false}
+          placeholder="EX. 545"
+          placeholderTextColor="#ffffff99"
+          onEndEditing={this.clickNext}
           onChangeText={(routeNum) => this.setState({ routeNum })}
           value={this.state.routeNum}
         />
@@ -36,11 +44,12 @@ export default class ChooseRouteScreen extends React.Component {
 const styles = StyleSheet.create({
   input: {
     height: 100,
-    backgroundColor: 'white',
-    fontFamily: 'Roboto',
-    fontWeight: 'bold',
-    fontSize: 60,
-    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: config.colors.backgroundText,
+    backgroundColor: config.colors.background,
+    color: 'white',
+    fontFamily: 'RobotoBold',
+    fontSize: 65,
     textAlign: 'center',
   },
 });

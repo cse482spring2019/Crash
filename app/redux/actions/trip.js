@@ -34,20 +34,25 @@ export function tripWatchStop(id) {
 export function fetchTrip(id, stopId, routeId) {
   return async dispatch => {
     let data = {};
-    while ((typeof data !== typeof {} || !data.data)) {
+    let attempts = 0;
+    while (attempts <= maxAttempts && (typeof data !== typeof {} || !data.data)) {
       const response = await Axios.get(
         getUrl(`arrivals-and-departures-for-stop/${stopId}`),
-        { params: { key: apiKey, minutesBefore: 0, minutesAfter: 60 } }
+        { params: { key: apiKey, minutesBefore: 0, minutesAfter: 1200 } }
       );
+      attempts++;
       data = response.data;
     }
     if (typeof data !== typeof {} || !data.data) dispatch(tripFetchFailure(id, 'Failed to fetch data'));
     else {
       data = data.data;
-      const and = data.entry.arrivalsAndDepartures.reduce(
-        (acc, and) => acc.routeId === routeId ? acc : and
-      );
-      if (and.routeId === routeId) {
+      let and;
+      if (data.entry.arrivalsAndDepartures) {
+        and = data.entry.arrivalsAndDepartures.reduce(
+          (acc, and) => acc.routeId === routeId ? acc : and
+        );
+      }
+      if (and && and.routeId === routeId) {
         dispatch(tripFetchSuccess(id, fromJS(and)));
       } else {
         dispatch(tripFetchFailure(id, 'No buses of this route are arriving at this stop in the next 60 minutes'));
@@ -57,7 +62,7 @@ export function fetchTrip(id, stopId, routeId) {
 }
 
 class TripWatcher {
-  secondsInterval = 30;
+  secondsInterval = 10;
 
   constructor(id, dispatch, trip) {
     this.active = true;
@@ -75,16 +80,19 @@ class TripWatcher {
     if (this.active) {
       const { stopId, tripId, serviceDate, vehicleId, stopSequence } = this;
       let data = {};
-      while ((typeof data !== typeof {} || !data.data)) {
+      let attempts = 0;
+      while (attempts <= maxAttempts && (typeof data !== typeof {} || !data.data)) {
         const response = await Axios.get(
           getUrl(`arrival-and-departure-for-stop/${stopId}`),
           {
             params: Object.assign(
-              { key: apiKey, tripId, serviceDate, stopSequence },
-              vehicleId ? { vehicleId } : {}
+              { key: apiKey, tripId, serviceDate },
+              vehicleId ? { vehicleId } : {},
+              stopSequence ? { stopSequence } : {}
             ),
           }
         );
+        attempts++;
         data = response.data;
       }
 

@@ -10,7 +10,7 @@ export default function VerticalText(props) {
           .split('')
           .map(
             (char, i) =>
-              <RobotoText style={props.textStyle} key={i}>
+              <RobotoText style={props.textStyle} key={i} bold={props.bold}>
                 {char}
               </RobotoText>
           )

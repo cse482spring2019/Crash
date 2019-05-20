@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableHighlight } from 'react-native';
 import VerticalText from '../text/VerticalText';
+import { config } from '../../config';
 
 export default function SideButton(props) {
   return (
@@ -15,7 +16,8 @@ export default function SideButton(props) {
       }}
     >
       <VerticalText
-        textStyle={{ color: 'white', fontWeight: 'bold', fontSize: 45 }}
+        bold
+        textStyle={{ color: config.colors.contentText, fontSize: 45 }}
         text={props.text}
       />
     </TouchableHighlight>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableHighlight } from 'react-native';
 import RobotoText from '../text/RobotoText';
+import { config } from '../../config';
 
 export default function YesNoButton(props) {
   return (
@@ -10,14 +11,14 @@ export default function YesNoButton(props) {
         flexDirection: 'row',
         justifyContent: 'center',
         padding: 10,
-        width: 150,
-        backgroundColor: props.color
+        backgroundColor: props.color,
+        ...props.style
       }}
     >
       <RobotoText
+        bold
         style={{
-          color: 'white',
-          fontWeight: 'bold',
+          color: config.colors.contentText,
           fontSize: 30
         }}
       >

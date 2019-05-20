@@ -84,7 +84,10 @@ export function selection(state = initialState, action) {
       if (sub) {
         sub.cancel();
       }
-      return state.setIn(['trip', action.payload, 'sub'], null);
+      return state.withMutations(mutable =>
+        mutable
+          .setIn(['trip', action.payload, 'sub'], null)
+      );
     default:
       return state;
   }

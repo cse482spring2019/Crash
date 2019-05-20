@@ -9,7 +9,8 @@ function getStops({ selectedDirection, stops }) {
     return (
       stops
         .getIn([selectedDirection, 'stops'])
-        .map(stop => ({ value: stop.get('id'), label: stop.get('name') }))
+        .toJS()
+        .map(stop => ({ value: stop.id, label: stop.name }))
     );
   } else {
     null;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, TouchableWithoutFeedback, View } from 'react-native';
+import { Platform, TouchableWithoutFeedback, View } from 'react-native';
 import { config } from '../../config';
 import { SafeAreaView } from 'react-navigation';
 
@@ -8,18 +8,17 @@ const CustomView = Platform.OS === 'android' ? View : SafeAreaView;
 export default function ScreenShell(props) {
   return (
     <TouchableWithoutFeedback onPress={props.onPress}>
-      <CustomView
+      <View
         style={{
           flex: 1,
           justifyContent: 'space-around',
           padding: 20,
-          backgroundColor: config.colors.shellBackground,
+          backgroundColor: config.colors.background,
           ...props.style
         }}
       >
-        <StatusBar hidden />
         {props.children}
-      </CustomView>
+      </View>
     </TouchableWithoutFeedback>
   );
 }

@@ -36,14 +36,19 @@
     },
     "extra": {
       "colors": {
-        "shellBackground": "#4A78BD",
-        "nextButtonBackground": "#FC4A1A"
+        "background": "black",
+        "backgroundText": "#FFF170",
+        "contentBox": "#57EDFF",
+        "contentText": "black",
+        "warning": "#FE0C0C",
+        "modalBackground": "#F4F4F4",
+        "modalText": "black"
       },
       "api": {
         "oneBusAway": {
           "baseUrl": "http://api.pugetsound.onebusaway.org/api/where/",
           "key": "68e81371-e5bf-44bc-b407-1c695948c02a",
-          "maxRequestAttempts": 8
+          "maxRequestAttempts": 100
         }
       },
       "buzzDefaults": [
@@ -53,7 +58,7 @@
           "buzz": {
             "repeat": true,
             "pattern": [
-              300
+              600
             ]
           }
         },
@@ -63,7 +68,7 @@
           "buzz": {
             "repeat": false,
             "pattern": [
-              300
+              600
             ]
           }
         },
@@ -73,14 +78,14 @@
           "buzz": {
             "repeat": false,
             "pattern": [
-              300,
-              300
+              600,
+              600
             ]
           }
         }
       ]
     },
-    "description": "OneBuzzAway is designed to aid member of the BlindDeaf community navigate public transportation by buzzing to inform them of the state of their bus.",
+    "description": "OneBuzzAway is designed to improve the on-boarding, en-route, and off-boarding experience for members of the BlindDeaf community when traveling via public transportation.",
     "githubUrl": "https://github.com/cse482spring2019/Crash"
   }
 }

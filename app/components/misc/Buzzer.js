@@ -31,16 +31,21 @@ export default class Buzzer extends React.Component {
     }
   }
 
+  buzzPattern = (lst) => {
+    if (lst.size > 0) {
+      Vibration.vibrate(400);
+      setTimeout(() => this.buzzPattern(lst.slice(1)), lst.get(0));
+    }
+  }
+
   componentDidUpdate() {
     this.props.buzzList.forEach((buzz, i) => {
       if (!this.state.completed.get(i) && this.shouldBuzz(buzz)) {
-        Vibration.vibrate(
-          Platform.OS === 'android'
-            ? buzz.getIn(['buzz', 'pattern']).reduce((acc, p) =>
-              acc.concat(List([p, 300])), List()).toArray()
-            : buzz.getIn(['buzz', 'pattern']).toArray(),
-          buzz.getIn(['buzz', 'repeat'])
-        );
+        if (buzz.getIn(['buzz', 'repeat'])) {
+          Vibration.vibrate([400], true);
+        } else {
+          this.buzzPattern(buzz.getIn(['buzz', 'pattern']));
+        }
         this.setState({
           completed: this.state.completed.set(i, true),
         });

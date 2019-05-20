@@ -1,4 +1,4 @@
-import { Map } from "immutable";
+import { Map, List } from "immutable";
 import { ActionTypes } from "../actions";
 /* {
   ...
@@ -15,10 +15,10 @@ import { ActionTypes } from "../actions";
   },
   ...
 } */
-export function routes(state = Map({}), action) {
+export function routes(state = List([]), action) {
   switch (action.type) {
     case ActionTypes.ROUTE.FETCH_ALL.SUCCESS:
-      return state.merge(action.payload);
+      return action.payload;
     default:
       return state;
   }

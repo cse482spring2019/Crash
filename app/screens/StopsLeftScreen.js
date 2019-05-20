@@ -1,34 +1,24 @@
 import React from 'react';
 import { Vibration, View, StyleSheet } from 'react-native';
 import { ScreenOrientation } from 'expo';
+import { Map } from 'immutable';
 import ScreenShell from '../components/shell/ScreenShell';
 import TitleText from '../components/text/TitleText';
 import Buzzer from '../components/misc/Buzzer';
 import { config } from '../config';
 
 export default class StopsLeftDestinationScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
+  componentWillMount() {
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.ALL);
     const {
-      fetchTrip, selectedDirection, selectedFinalStop, selectedRoute, stops
+      navigation, selectedDirection, selectedFinalStop, stops, watchTrip
     } = this.props;
-    fetchTrip(
-      stops.getIn([selectedDirection, 'stops', selectedFinalStop, 'id']),
-      selectedRoute.get('id')
+    watchTrip(
+      Map(navigation.state.params.trip).set(
+        'stopId',
+        stops.getIn([selectedDirection, 'stops', selectedFinalStop, 'id'])
+      ).remove('stopSequence')
     );
-  }
-
-  componentDidUpdate(prevProps) {
-    const { activeTrip, watchTrip } = this.props;
-    if (activeTrip) {
-      if (
-        !prevProps.activeTrip
-        || prevProps.activeTrip.get('id') !== activeTrip.get('id')
-      ) {
-        watchTrip(activeTrip);
-      }
-    }
   }
 
   componentWillUnmount() {
@@ -37,20 +27,6 @@ export default class StopsLeftDestinationScreen extends React.Component {
       stopWatchTrip(activeTrip);
     }
   }
-
-  onFocus = () => {
-    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
-
-    const {
-      fetchTrip, selectedDirection, selectedFinalStop, selectedRoute, stops
-    } = this.props;
-    fetchTrip(
-      stops.getIn([selectedDirection, 'stops', selectedFinalStop, 'id']),
-      selectedRoute.get('id')
-    );
-  }
-
-  onBlur = () => this.componentWillUnmount()
 
   render() {
     const { activeTrip, buzzList, navigation, stops } = this.props;
@@ -64,9 +40,9 @@ export default class StopsLeftDestinationScreen extends React.Component {
         }}
       >
         {
-          activeTrip && activeTrip.get('numberOfStopsAway') <= 0
+          activeTrip && activeTrip.get('numberOfStopsAway') === 0
             ? [
-              <TitleText key="arrived" style={styles.titleText}>
+              <TitleText key="arrived" bold style={styles.titleText}>
                 ARRIVED AT LOCATION
               </TitleText>,
               <TitleText key="tapToStop" style={styles.titleText}>
@@ -74,15 +50,15 @@ export default class StopsLeftDestinationScreen extends React.Component {
               </TitleText>
             ]
             : [
-              <TitleText key="putYourPhoneAway" style={styles.titleText}>
+              <TitleText key="putYourPhoneAway" bold style={styles.titleText}>
                 YOU CAN PUT AWAY YOUR PHONE
               </TitleText>,
               <View key="number" style={styles.numberBox}>
-                <TitleText style={styles.number}>
+                <TitleText bold style={styles.number}>
                   {activeTrip ? activeTrip.get('numberOfStopsAway') : '...'}
                 </TitleText>
               </View>,
-              <TitleText key="stopsAway" style={styles.titleText}>
+              <TitleText key="stopsAway" bold style={styles.titleText}>
                 STOPS AWAY
               </TitleText>
             ]
@@ -99,16 +75,15 @@ export default class StopsLeftDestinationScreen extends React.Component {
 
 const styles = StyleSheet.create({
   titleText: {
-    fontWeight: 'bold',
     fontSize: 50,
   },
   numberBox: {
     alignSelf: 'center',
     aspectRatio: 1,
-    backgroundColor: config.colors.nextButtonBackground,
+    backgroundColor: config.colors.contentBox,
   },
   number: {
-    fontWeight: 'bold',
     fontSize: 130,
+    color: config.colors.contentText,
   },
 });

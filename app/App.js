@@ -1,8 +1,8 @@
 // Library imports
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { NetInfo, StatusBar, StyleSheet, View } from 'react-native';
 import { useScreens } from 'react-native-screens';
-import { AppLoading, Font } from 'expo';
+import { AppLoading, Font, KeepAwake, ScreenOrientation } from 'expo';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
@@ -11,6 +11,7 @@ import thunkMiddleware from 'redux-thunk';
 import AppNavigator from './navigation/AppNavigator';
 import rootReducer from './redux/reducers';
 import { fetchRoutes, fetchSavedBuzzPatterns } from './redux/actions';
+import NoConnectionScreen from './screens/NoConnectionScreen';
 
 useScreens();
 
@@ -24,11 +25,23 @@ export const store = createStore(
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
+    connected: false,
   };
 
   componentWillMount() {
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.ALL);
     store.dispatch(fetchSavedBuzzPatterns());
     store.dispatch(fetchRoutes());
+    NetInfo.addEventListener(
+      'connectionChange',
+      (info) => {
+        if (info.type === 'none' || info.type === 'unknown') {
+          this.setState({ connected: false });
+        } else {
+          this.setState({ connected: true });
+        }
+      }
+    );
   }
 
   render() {
@@ -44,8 +57,13 @@ export default class App extends React.Component {
       return (
         <Provider store={store}>
           <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppNavigator />
+            <StatusBar hidden />
+            <KeepAwake />
+            {
+              this.state.connected
+                ? <AppNavigator />
+                : <NoConnectionScreen />
+            }
           </View>
         </Provider>
       );
@@ -55,6 +73,8 @@ export default class App extends React.Component {
   _loadResourcesAsync = async () => {
     return Font.loadAsync({
       'Roboto': require('./assets/fonts/Roboto-Regular.ttf'),
+      'RobotoBold': require('./assets/fonts/Roboto-Bold.ttf'),
+      'RobotoMono': require('./assets/fonts/RobotoMono-Bold.ttf'),
     });
   };
 

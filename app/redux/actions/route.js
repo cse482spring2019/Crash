@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import { ActionTypes } from './types';
 import { fetchStops } from './stop';
 import { getUrl, apiKey, maxAttempts } from './oneBusAway';
@@ -27,8 +27,10 @@ export function routeDirectionSelect(payload) {
 // Complex Action Creators
 async function getAgencies() {
   let data = {};
-  while ((typeof data !== typeof {} || !data.data)) {
+  let attempts = 0;
+  while (attempts <= maxAttempts && (typeof data !== typeof {} || !data.data)) {
     const response = await Axios.get(getUrl('agencies-with-coverage'), { params: { key: apiKey } });
+    attempts++;
     data = response.data;
   }
   data = data.data;
@@ -39,8 +41,10 @@ async function getRoutesForAgency(id) {
   try {
     let data = {};
     let response;
-    while (!data.data) {
+    let attempts = 0;
+    while (attempts <= maxAttempts && !data.data) {
       response = await Axios.get(getUrl(`routes-for-agency/${id}`), { params: { key: apiKey } });
+      attempts++;
       data = response.data;
     }
     if (data.data) {
@@ -62,17 +66,17 @@ export function fetchRoutes() {
     const routes = (await Promise.all(
       agencies.map(async agency => getRoutesForAgency(agency.id))
     )).reduce(
-      (acc, routes) => acc.merge(
+      (acc, routes) => acc.concat(
         routes
           // Filter out non-bus routes
           .filter(route => route.type == 3)
           // Reduce to a map from route name to route details
           .reduce(
-            (acc, route) => (acc.set(route.shortName || route.longName, Map(route))),
-            Map({})
+            (acc, route) => (acc.push(Map(route))),
+            List([])
           )
       ),
-      Map({})
+      List([])
     );
     dispatch(routeFetchAllSuccess(routes));
   };

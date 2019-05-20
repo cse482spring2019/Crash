@@ -19,8 +19,6 @@ export default function NextButton(props) {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 20,
-    borderTopStartRadius: 20,
-    borderTopEndRadius: 20,
-    backgroundColor: config.colors.nextButtonBackground,
+    backgroundColor: config.colors.contentBox,
   },
 });
