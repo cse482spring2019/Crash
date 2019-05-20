@@ -20,7 +20,7 @@ function getOptions({ routes, navigation }) {
 
 export default function ConfirmRouteScreen({ routes, selectRoute, navigation }) {
   return (
-    <SelectScreenShell titleText="CHOOSE YOUR ROUTE">
+    <SelectScreenShell titleText={`WHICH ${navigation.state.params.routeNum} DID YOU MEAN`}>
       <OBAPicker
         options={getOptions({ routes, navigation })}
         onSelect={id => {
