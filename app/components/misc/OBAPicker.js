@@ -11,7 +11,7 @@ export default function OBAPicker({ onSelect, options }) {
       keyExtractor={item => item.value}
       renderItem={({ item }) => (
         <TouchableHighlight
-          accessibilityComponentType="button"
+          accessibilityRole="button"
           onPress={() => onSelect(item.value)}
         >
           <View

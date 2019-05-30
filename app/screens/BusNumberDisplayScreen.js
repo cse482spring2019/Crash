@@ -91,7 +91,7 @@ export default class BusNumberDisplayScreen extends React.Component {
           onWillFocus={this.onFocus}
           onDidBlur={this.onBlur}
         />
-        <View style={styles.main}>
+        <View accessible="true" style={styles.main}>
           <RobotoText bold style={styles.confirmationText}>
             AM I GETTING ON BUS
           </RobotoText>
@@ -108,6 +108,9 @@ export default class BusNumberDisplayScreen extends React.Component {
         </View>
         <View>
           <SideButton
+            accessibilityRole="button"
+            accessibilityLabel="yes button"
+            accessibilityHint="press to indicate a yes"
             onPress={() => {
               Vibration.vibrate(300);
               this.setState({ modalVisible: true });
@@ -116,6 +119,9 @@ export default class BusNumberDisplayScreen extends React.Component {
             text="YES"
           />
           <SideButton
+            accessibilityRole="button"
+            accessibilityLabel="no button"
+            accessibilityRole="press to indicate a no"
             onPress={() => {
               const f = (lst = [600, 600]) => {
                 if (lst.length > 0) {
@@ -130,6 +136,7 @@ export default class BusNumberDisplayScreen extends React.Component {
           />
         </View>
         <ConfirmationModal
+
           visible={this.state.modalVisible}
           onRequestClose={() => this.setState({ modalVisible: false })}
           onYes={() => {

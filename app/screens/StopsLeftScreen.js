@@ -32,6 +32,8 @@ export default class StopsLeftDestinationScreen extends React.Component {
     const { activeTrip, buzzList, navigation, stops } = this.props;
     return (
       <ScreenShell
+        accessible={true}
+        accessibilityLiveRegion="polite"
         onPress={() => {
           Vibration.cancel();
           if (activeTrip && activeTrip.get('numberOfStopsAway') <= 0) {

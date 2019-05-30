@@ -7,7 +7,7 @@ const CustomView = Platform.OS === 'android' ? View : SafeAreaView;
 
 export default function ScreenShell(props) {
   return (
-    <TouchableWithoutFeedback onPress={props.onPress}>
+    <TouchableWithoutFeedback accessible={props.accessible} onPress={props.onPress}>
       <View
         style={{
           flex: 1,

@@ -22,6 +22,7 @@ export default function ConfirmRouteScreen({ routes, selectRoute, navigation }) 
   return (
     <SelectScreenShell titleText={`WHICH ${navigation.state.params.routeNum} DID YOU MEAN`}>
       <OBAPicker
+        accessibilityHint="pick which route you are referring to"
         options={getOptions({ routes, navigation })}
         onSelect={id => {
           selectRoute(routes.find(route => route.get('id') === id));

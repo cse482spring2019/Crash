@@ -6,7 +6,9 @@ import NextButtonText from '../text/NextButtonText';
 export default function NextButton(props) {
   return (
     <TouchableHighlight
-      accessibilityComponentType="button"
+      accessibilityRole="button"
+      accessibilityHint="click this to go to next screen"
+      accessibilityLabel="next button"
       onPress={() => props.onPress(props)}
     >
       <View style={{ ...styles.container, ...props.style }}>

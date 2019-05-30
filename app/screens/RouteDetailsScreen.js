@@ -11,7 +11,7 @@ export default function RouteDetailsScreen({
   selectedRoute, stops
 }) {
   return (
-    <ScreenShell onPress={() => navigation.navigate('WaitForBus')}>
+    <ScreenShell accessible={true} onPress={() => navigation.navigate('WaitForBus')}>
       <SubTitleText>
         YOU HAVE SELECTED
       </SubTitleText>

@@ -6,7 +6,7 @@ import { config } from '../../config';
 export default function SideButton(props) {
   return (
     <TouchableHighlight
-      accessibilityComponentType="button"
+      accessibilityRole="button"
       onPress={props.onPress}
       style={{
         flex: 1,

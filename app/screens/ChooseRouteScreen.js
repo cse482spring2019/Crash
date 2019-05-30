@@ -28,6 +28,9 @@ export default class ChooseRouteScreen extends React.Component {
         titleText="ENTER BUS NUMBER"
         clickNext={this.clickNext}>
         <TextInput
+          accessibilityRole="search"
+          accessibilityLabel="area to type in bus number"
+          accessabilityHint="type in bus number"
           style={styles.input}
           autoCorrect={false}
           placeholder="EX. 545"

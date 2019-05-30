@@ -5,6 +5,7 @@ import { config } from '../../config';
 export default function OBAModal(props) {
   return (
     <Modal
+      accessibilityLiveRegion="polite"
       animationType="slide"
       transparent={true}
       visible={props.visible}

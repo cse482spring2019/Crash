@@ -9,6 +9,7 @@ import TitleText from '../text/TitleText';
 export default function SelectScreenShell(props) {
   return (
     <ScreenShell
+      accessible={false}
       style={{ justifyContent: 'flex-start', ...props.style }}
       onPress={props.onPress}
     >

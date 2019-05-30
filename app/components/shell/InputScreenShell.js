@@ -10,6 +10,7 @@ import NextButton from '../misc/NextButton';
 export default function InputScreenShell(props) {
   return (
     <ScreenShell
+      accessible={false}
       style={{ justifyContent: 'space-between', ...props.style }}
       onPress={props.onPress}
     >

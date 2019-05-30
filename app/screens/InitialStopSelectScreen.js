@@ -25,10 +25,12 @@ export default class InitialStopSelectScreen extends React.Component {
         {
           this.props.location.get('error') || !this.state.geo
             ? <AllStops
+              accessibilityLiveRegion="polite"
               onSelect={id => this.selectStop(id)}
               {...this.props}
             />
             : <NearestStops
+              accessibilityLiveRegion="polite"
               onSelect={id => {
                 if (id === 'none') {
                   this.setState({ geo: false });
