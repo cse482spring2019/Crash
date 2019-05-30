@@ -1,6 +1,5 @@
 import React from 'react';
-import { Platform, TouchableWithoutFeedback, Vibration, View } from 'react-native';
-import { List } from 'immutable';
+import { TouchableWithoutFeedback, Vibration, View } from 'react-native';
 
 export default class Buzzer extends React.Component {
   constructor(props) {
@@ -14,7 +13,11 @@ export default class Buzzer extends React.Component {
     const { trip, stops } = this.props;
     switch (unit) {
       case 'stop':
-        return trip && value === trip.get('numberOfStopsAway');
+        return trip && (
+          buzz.get('leq')
+            ? value >= trip.get('numberOfStopsAway')
+            : value === trip.get('numberOfStopsAway')
+        );
       case 'minute':
         if (trip) {
           const arrivalTime = trip.get('predictedArrivalTime') > 0
@@ -42,7 +45,7 @@ export default class Buzzer extends React.Component {
     this.props.buzzList.forEach((buzz, i) => {
       if (!this.state.completed.get(i) && this.shouldBuzz(buzz)) {
         if (buzz.getIn(['buzz', 'repeat'])) {
-          Vibration.vibrate([400], true);
+          Vibration.vibrate([600, 600], true);
         } else {
           this.buzzPattern(buzz.getIn(['buzz', 'pattern']));
         }

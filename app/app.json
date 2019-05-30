@@ -1,7 +1,9 @@
 {
   "expo": {
     "name": "OneBuzzAway",
+    "description": "OneBuzzAway is designed to improve the on-boarding, en-route, and off-boarding experience for members of the BlindDeaf community when traveling via public transportation.",
     "slug": "onebuzzaway",
+    "githubUrl": "https://github.com/cse482spring2019/Crash",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -9,12 +11,12 @@
       "android"
     ],
     "version": "1.0.0",
-    "orientation": "portrait",
+    "primaryColor": "#000000",
     "icon": "./assets/images/icon.png",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,6 +25,8 @@
       "**/*"
     ],
     "android": {
+      "package": "edu.uw.onebuzzaway",
+      "versionCode": 1.0,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION"
@@ -55,6 +59,7 @@
         {
           "unit": "stop",
           "value": 0,
+          "leq": true,
           "buzz": {
             "repeat": true,
             "pattern": [
@@ -84,8 +89,6 @@
           }
         }
       ]
-    },
-    "description": "OneBuzzAway is designed to improve the on-boarding, en-route, and off-boarding experience for members of the BlindDeaf community when traveling via public transportation.",
-    "githubUrl": "https://github.com/cse482spring2019/Crash"
+    }
   }
 }

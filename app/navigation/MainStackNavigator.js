@@ -6,6 +6,7 @@ import ConfirmRouteScreen from '../screens/ConfirmRouteScreen';
 import DirectionSelectScreen from '../screens/DirectionSelectScreen';
 import InitialStopSelectScreen from '../screens/InitialStopSelectScreen';
 import FinalStopSelectScreen from '../screens/FinalStopSelectScreen';
+import RouteDetailsScreen from '../screens/RouteDetailsScreen';
 import WaitForBusScreen from '../screens/WaitForBusScreen';
 import BusNumberDisplayScreen from '../screens/BusNumberDisplayScreen';
 import StopsLeftDestinationScreen from '../screens/StopsLeftScreen';
@@ -22,6 +23,7 @@ export default createStackNavigator({
   DirectionSelect: Stops(DirectionSelectScreen),
   InitialStopSelect: Stops(Location(InitialStopSelectScreen)),
   FinalStopSelect: Stops(FinalStopSelectScreen),
+  RouteDetails: Stops(Routes(RouteDetailsScreen)),
   WaitForBus: props => <WrappedWaitForBusScreen {...props} tripKey="busNumberDisplay" />,
   DisplayBus: props => <WrappedBusNumberDisplayScreen {...props} tripKey="busNumberDisplay" />,
   StopsLeft: props => <WrappedStopsLeftDestinationScreen {...props} tripKey="stopsLeft" />,

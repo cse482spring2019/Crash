@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import ScreenShell from '../components/shell/ScreenShell';
 import TitleText from '../components/text/TitleText';
 

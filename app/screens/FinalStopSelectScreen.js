@@ -31,7 +31,7 @@ export default class FinalStopSelectScreen extends React.Component {
                 .getIn([selectedDirection, 'stops'])
                 .findIndex(value => value.get('id') === id)
             );
-            navigation.navigate('WaitForBus');
+            navigation.navigate('RouteDetails');
           }}
           {...this.props}
         />

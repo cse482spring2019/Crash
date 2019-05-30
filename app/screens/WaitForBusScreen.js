@@ -95,6 +95,7 @@ export default class WaitForBusScreen extends React.Component {
             Map({
               unit: 'stop',
               value: 1,
+              leq: true,
               buzz: Map({ pattern: List([300]), repeat: false })
             })
           ])}

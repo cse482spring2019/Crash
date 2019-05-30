@@ -80,7 +80,7 @@ export default class BusNumberDisplayScreen extends React.Component {
     const CustomView = Platform.OS === 'android' ? View : SafeAreaView;
 
     const busNum = this.props.activeTrip ? this.props.activeTrip.get('routeShortName') : '...';
-    const x = busNum.length;
+    const x = Math.max(busNum.length, 3);
     const a = 1102.3;
     const b = -1.05412;
     const eqn = (a * Math.pow(x, b));
@@ -99,7 +99,7 @@ export default class BusNumberDisplayScreen extends React.Component {
             <Text
               style={{
                 ...styles.busNumber,
-                fontSize: Math.max(Math.min(400, eqn), 0)
+                fontSize: eqn,
               }}
             >
               {busNum}
