@@ -16,50 +16,46 @@ Prior to using our app, the user is expected to do their trip planning on a sepa
 
 The user will first begin by seeing this screen, and as it says, tapping anywhere will get them started.
 
-![Tap Anywhere to Begin](tap-anywhere-to-begin.jpg)
+<img alt="Tap Anywhere to Begin" src="tap-anywhere-to-begin.jpg" height=200 />
 
 Then, the user will need to enter their bus number and choose in which direction they want to go.
 
-![Enter Bus Number](enter-bus-number.jpg)
-![Enter 67](enter-67.jpg)
-![Select Direction](select-direction.jpg)
+<img alt="Enter Bus Number" src="enter-bus-number.jpg" height=200 /> <img alt="Select Direction" src="select-direction.jpg" height=200 />
 
 Please note that in the case where there are multiple routes that belong to the entered bus number, a page would show prior to selecting a direction where the user has to choose which bus route they want to take.
 
-![Confirm Route Screen](confirm-route-screen.jpg)
+<img alt="Confirm Route Screen" src="confirm-route-screen.jpg" height=200 />
 
 Once a bus route and a direction have been selected, the user will be provided with origin and destination stops the user will choose from. For the origin stop selection, there are two options depending on the settings the user has set on their phone.
 
-1. If the user has their location services on, the app will show the top 3 nearby stops to the user’s current location and a 4th option to send the user to all the stops in case their desired stop is not listed. 
+1. If the user has their location services on, the app will show the top 3 nearby stops to the user’s current location and a 4th option to send the user to all the stops in case their desired stop is not listed (left).
 
-    ![Select Origin Stop with GPS](select-origin-stop-with-gps.jpg)
+1. If the user’s location services is off, the app will show all of the stops available for the selected bus route and direction (right). 
 
-1. If the user’s location services is off, the app will show all of the stops available for the selected bus route and direction. 
-
-    ![Select Origin Stop without GPS](select-origin-stop-without-gps.jpg)
+    <img alt="Select Origin Stop without GPS" src="select-origin-stop-without-gps.jpg" height=200 />
 
 For the final stop selection, the user will be offered with all of the stops from the origin stop selected until the last stop available for that route. 
 
-![Select Final Stop Vertical](select-final-stop-vertical.jpg)
+<img alt="Select Final Stop Vertical" src="select-final-stop-vertical.jpg" height=200 />
 
 As can be seen, the bus routes, directions, and stop names are quite long. And so, the user is able to rotate the screen in any way they would like in order for the text to become easier to read.
 
-![Select Final Stop Horizontal](select-final-stop-horizontal.jpg)
+<img alt="Select Final Stop Horizontal" src="select-final-stop-horizontal.jpg" height=200 />
 
 Once the user is finished entering their information, they will get a confirmation page to ensure one last time that their selected bus route and stops are what they meant to choose.
 
-![Route Details Confirmation](route-details-confirmation.jpg)
+<img alt="Route Details Confirmation" src="route-details-confirmation.jpg" height=200 />
 
 Then, they will wait for their bus to show. The user will know that their bus is almost at the bus stop when there is a buzzing alert. 
 As soon as they feel the alert, the user is asked to tap anywhere on the screen which will lead to the following view:
 
-![Route Display Screen](route-display-screen.jpg)
+<img alt="Route Display Screen" src="route-display-screen.jpg" height=200 />
 
 Please note that the screen is yellow, which represents the identity of a non-hearing individual. This means that the bus driver will make contact with the user by touch. 
 
 If the user is comfortable, they will hold their phone with the screen facing away from them so that bus drivers can look out for this sign and help the user on the bus. As the bus driver confirms/rejects that the user is getting on the right bus, the button selection will lead to two buzzing - yes will have 1 buzz while no will have 2. If the bus driver presses yes, they will get a confirmation page to ensure it was not selected by accident and prevent errors. 
 
-![Route Display Confirmation](route-display-confirmation.jpg)
+<img alt="Route Display Confirmation" src="route-display-confirmation.jpg" height=200 />
 
 The same buzzing pattern for yes and no selection will show in this screen as well. 
 
@@ -67,7 +63,7 @@ From this screen on out, the bus’ location will be tracked as it goes from one
 
 When the user is 2, 1, or 0 stops away, they should expect different buzzing to represent each of those cases. 2 stops away would mean 2 buzzes, 1 stop away would mean 1 buzz and 0 stops away would cause a never ending buzz until the user stops it by tapping anywhere on the screen.
 
-![2 Stops away](2-stops-away.jpg) ![1 Stop away](1-stop-away.jpg) ![Arrived](arrived.jpg)
+<img alt="2 Stops away" src="2-stops-away.jpg" height=200 /> <img alt="1 Stop away" src="1-stop-away.jpg" height=200 /> <img alt="Arrived" src="arrived.jpg" height=200 />
 
 ## Use cases
 
@@ -75,19 +71,19 @@ When the user is 2, 1, or 0 stops away, they should expect different buzzing to 
 
 The user wants to get on the right bus easily, and independently. In order to get on the right bus, the user first has to enter their trip information based on their trip planning done in a separate navigation app. They enter their route number, direction, origin stop, and final stop.
 
-![App Flow](app-flow.jpg)
+<img alt="App Flow" src="app-flow.jpg" height=200 />
 
 The user also sees a confirmation screen that they tap to select.
 
-![Route Details Confirmation](route-details-confirmation.jpg)
+<img alt="Route Details Confirmation" src="route-details-confirmation.jpg" height=200 />
 
 Then, the user prepares for the bus arrival. They can keep their phone in their hand, their jean pocket, or their jacket pocket. The phone will buzz when the bus is close to arrival so the user has time to prepare.
 
-![Wait for Bus](wait-for-bus.jpg)
+<img alt="Wait for Bus" src="wait-for-bus.jpg" height=200 />
 
 Once the bus arrives the user takes out their phone, clicks on the screen and then has the following screen facing away from them.
 
-![Route Display Screen](route-display-screen.jpg)
+<img alt="Route Display Screen" src="route-display-screen.jpg" height=200 />
 
 At this point, there can be further two cases. If the user still has some vision, they are likely to get on the bus on their own. They will show the screen above to the driver so he can confirm that the user is on the right bus. However, if the user is completely blind, the user will hold this screen up at the bus stop and wait for the bus driver to tap on the screen to confirm.
 
@@ -100,7 +96,7 @@ Once the right bus arrives, however, the driver will press yes in both cases and
 The user wants to get off at the correct bus stop and wants to make sure that they have a reliable, stress free way to keep track of where they are in their route.
 Once the user gets on the correct bus, the following screen shows up:
 
-![5 Stops Away](5-stops-away.jpg)
+<img alt="5 Stops Away" src="5-stops-away.jpg" height=200 />
 
 They sit down and keep their phone in their hand, in their jean pocket, or their jacket pocket. As the bus goes through each stop in the route, the number on the screen decrements.
 
