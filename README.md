@@ -1,272 +1,125 @@
-# **Crash**
-
+# Crash
 The repository for the Savage Rhinoceroses capstone team
 
-## **Table of Contents**
-
+## Table of Contents
 - [**Crash**](#crash)
   - [**Table of Contents**](#table-of-contents)
-  - [**Re-usable UI Components**](#re-usable-ui-components)
-  - [**Redux Containers**](#redux-containers)
-    - [*General Container Usage*](#general-container-usage)
-    - [**Location**](#location)
-    - [**Routes**](#routes)
-    - [**Stops**](#stops)
-    - [**Trip**](#trip)
-    - [**Preferences**](#preferences)
+  - [**Application overview**](#application-overview)
+  - [**Use cases**](#use-cases)
+      - [**Getting on the right bus**](#getting-on-the-right-bus)
+      - [**Getting off at the right bus stop**](#getting-off-at-the-right-bus-stop)
+  - [**Preventing failure**](#preventing-failure)
 
-## **Re-usable UI Components**
+## Application overview
 
-We have developed the following re-usable UI components to be used in several of
-our application screens:
+Prior to using our app, the user is expected to do their trip planning on a separate navigation app such as Google Maps which will provide them with the following needed information: bus number, bus direction, origin bus stop, destination bus stop. The user should also turn off their WiFi in order to prevent data loss when leaving an area with WiFi. Once they have this information, the user is ready to use OneBuzzAway.
 
-- Textual Components:
-  - `RobotoText`
-    - Displays a plain `Text` component with `fontFamily: 'Roboto'`
-    - Accepted props:
-      - `style`
-      - `children` (via nesting i.e. `<RobotoText>Some Text</RobotoText>`)
-  - `TitleText`
-    - Displays text intended for the title of a screen
-    - Accepted props:
-      - `style`
-      - `children`
-  - `SubTitleText`
-    - Displays text intended for the subtitle of a screen
-    - Accepted props:
-      - `style`
-      - `children`
-  - `NextButtonText`
-    - Displays text intended for the big, red "NEXT" button
-    - Accepted props:
-      - `style`
-      - `children`
-- Screen Shell Components:
-  - `ScreenShell`
-    - Displays a full-screen component with a blue background, no status bar,
-      and vertically (and horizontally) centered children
-    - Accepted props:
-      - `onPress()`
-      - `style`
-      - `children`
-  - `InputScreenShell`
-    - Displays a `ScreenShell` with slots for title and subtitle text at the
-      top, a "NEXT" button at the bottom, and children in between
-    - Accepted props:
-      - `titleText`
-      - `nextButtonText` - Default value is "NEXT"
-      - `clickNext(props)` - Function to call when the "NEXT" button is clicked
-        - The props available to the "NEXT" button are provided as an argument
-      - `wrap()` - (optional) Container function in which to wrap the "NEXT" button
-        - This is useful if you want to have access to global state in `clickNext()`
-      - `onPress()`
-      - `style`
-      - `children`
-- Misc:
-  - `Buzzer`
-    - Takes a list of buzz patterns and triggers, as well as a GTFS `trip` and
-      handles buzzing for the given information. If any of the buzz triggers
-      have a unit of `percent`, this component also requires the full list of
-      `stops` for the current trip
-    - Accepted props:
-      - `buzzList` - Must be a list of buzz preferences as defined in
-        [Preferences](#preferences)
-      - `trip` - Must be a GTFS trip as defined in [Trip](#trip)
-      - `stops` - Must be a list of stops (for a route and direction) as defined
-        in [Stops](#stops)
-      - `style`
-      - `children`
-  - `OBAPicker`
-    - Displays a big, white, selection list picker intended for the input
-      selection screens
-    - Accepted props:
-      - `options` - List of selection options
-        - Each option must have the form `{ value: string, label: string }`
-      - `selected` - The value of the currently selected option
-      - `onSelect(value)` - The functino to call when a user updates their
-        selection
-      - `style` - Styles for the picker's container component
-      - `pickerStyle` - Styles for the picker itself
-  - `NextButton`
-    - Displays a big, red, button intended for the "NEXT" text at the bottom of
-      screens
-    - Accepted props:
-      - `onPress(props)` - The `NextButton`'s props are provided to
-        `onPressed()`
-      - `style`
-      - `children`
+The user will first begin by seeing this screen, and as it says, tapping anywhere will get them started.
 
-## **Redux Containers**
+![Tap Anywhere to Begin](tap-anywhere-to-begin.jpg)
 
-We use redux to manage global application state. We expose the global state in
-pieces, as well as providing functions to update global state via the following
-container components:
+Then, the user will need to enter their bus number and choose in which direction they want to go.
 
-### *General Container Usage*
+![Enter Bus Number](enter-bus-number.jpg)
+![Enter 67](enter-67.jpg)
+![Select Direction](select-direction.jpg)
 
-Each container component we built provides certain props to its child component.
-For instance, if I want to build a component that has access to the user's
-current GPS location, I will write a component that takes that information in
-its `props`. Then, when I want to use the component, I must first wrap it with
-the container as follows:
+Please note that in the case where there are multiple routes that belong to the entered bus number, a page would show prior to selecting a direction where the user has to choose which bus route they want to take.
 
-```javascript
-const WrappedComponent = Container(Component)
+![Confirm Route Screen](confirm-route-screen.jpg)
 
-export default function SomeComponent(props) {
-  return <WrappedComponent someProp="someValue" />
-}
-```
+Once a bus route and a direction have been selected, the user will be provided with origin and destination stops the user will choose from. For the origin stop selection, there are two options depending on the settings the user has set on their phone.
 
-In the example above (as is the case with all of our containers), `Container` is
-a function that takes a component and returns a component. The component
-returned will receive certain props derived from the global state, as well as
-any props provided to the wrapped component.
+1. If the user has their location services on, the app will show the top 3 nearby stops to the user’s current location and a 4th option to send the user to all the stops in case their desired stop is not listed. 
 
-### **Location**
+    ![Select Origin Stop with GPS](select-origin-stop-with-gps.jpg)
 
-This container exposes GeoLocation data to its child. This container also takes
-a `boolean` prop `watchLocation` representing whether or not the child component
-should regularly receive location updates or only when it requests them. \
-It exposes the following props:
+1. If the user’s location services is off, the app will show all of the stops available for the selected bus route and direction. 
 
-- `location`
+    ![Select Origin Stop without GPS](select-origin-stop-without-gps.jpg)
 
-  - ```javascript
-    {
-      timestamp: number,
-      coords: {
-        longitude: number,
-        latitude: number
-      },
-      error: any
-    }
-    ```
+For the final stop selection, the user will be offered with all of the stops from the origin stop selected until the last stop available for that route. 
 
-- `fetchLocation()` - Gets the user's current GeoLocation data
-  - This function is provided only if `watchLocation` is `false`
+![Select Final Stop Vertical](select-final-stop-vertical.jpg)
 
-### **Routes**
+As can be seen, the bus routes, directions, and stop names are quite long. And so, the user is able to rotate the screen in any way they would like in order for the text to become easier to read.
 
-This container exposes data regarding GTFS routes.
+![Select Final Stop Horizontal](select-final-stop-horizontal.jpg)
 
-- `selectedRoute`
+Once the user is finished entering their information, they will get a confirmation page to ensure one last time that their selected bus route and stops are what they meant to choose.
 
-  - ```javascript
-    {
-      id: string,
-      description: string,
-      longName: string,
-      shortName: string
-    }
-    ```
+![Route Details Confirmation](route-details-confirmation.jpg)
 
-- `routes`
+Then, they will wait for their bus to show. The user will know that their bus is almost at the bus stop when there is a buzzing alert. 
+As soon as they feel the alert, the user is asked to tap anywhere on the screen which will lead to the following view:
 
-  - ```javascript
-    {
-      [route.shortName]: {
-        id: string,
-        description: string,
-        longName: string,
-        shortName: string
-      }
-    }
-    ```
+![Route Display Screen](route-display-screen.jpg)
 
-- `selectRoute(route)` - Sets the selected route
-  - This function also fetches stop data for the selected route
+Please note that the screen is yellow, which represents the identity of a non-hearing individual. This means that the bus driver will make contact with the user by touch. 
 
-### **Stops**
+If the user is comfortable, they will hold their phone with the screen facing away from them so that bus drivers can look out for this sign and help the user on the bus. As the bus driver confirms/rejects that the user is getting on the right bus, the button selection will lead to two buzzing - yes will have 1 buzz while no will have 2. If the bus driver presses yes, they will get a confirmation page to ensure it was not selected by accident and prevent errors. 
 
-This container provides data regarding GTFS stops associated with a specific
-route (and directions).
+![Route Display Confirmation](route-display-confirmation.jpg)
 
-- `stops`
+The same buzzing pattern for yes and no selection will show in this screen as well. 
 
-  - ```javascript
-    [
-      {
-        groupId: string,
-        direction: string,
-        stops: [
-          {
-            id: string,
-            name: string,
-            lat: number,
-            lon: number,
-          }
-        ]
-      }
-    ]
-    ```
+From this screen on out, the bus’ location will be tracked as it goes from one stop to another so that the user knows exactly how far away they are and when to get off. 
 
-- `selectedDirection`: number
-  - The index of the selected direction in the `stops` list
-- `selectedInitialStop`: number
-  - The index of the selected initial stop in the `stops` list for the
-    given direction
-- `selectedFinalStop`: number
-  - The index of the selected final stop in the `stops` list for the
-    given direction
-- `selectDirection(dir)` - Sets the selected direction
-- `selectInitialStop(idx)` - Sets the selected initial stop
-- `selectFinalStop(idx)` - Sets the selected final stop
+When the user is 2, 1, or 0 stops away, they should expect different buzzing to represent each of those cases. 2 stops away would mean 2 buzzes, 1 stop away would mean 1 buzz and 0 stops away would cause a never ending buzz until the user stops it by tapping anywhere on the screen.
 
-### **Trip**
+![2 Stops away](2-stops-away.jpg) ![1 Stop away](1-stop-away.jpg) ![Arrived](arrived.jpg)
 
-This container provides data regarding the closest arrival of the
-requested route to the requested stop. This container takes a required prop
-`tripKey` of type `string`, which should be unique for each instance. This is
-done to allow multiple components to interact with different trips.
+## Use cases
 
-- `activeTrip` - This is only provided if fetching succeeded (not always true
-                  for the other containers)
+### Getting on the right bus
 
-  - ```javascript
-    {
-      tripId: string,
-      routeId: string,
-      distanceFromStop: number,
-      numberOfStopsAway: number,
-      serviceDate: number,
-      stopSequence: number,
-      totalStopsInTrip: number,
-      scheduledArrivalTime: number,
-      predicted: boolean,
-      predictedArrivalTime: number,
-    }
-    ```
+The user wants to get on the right bus easily, and independently. In order to get on the right bus, the user first has to enter their trip information based on their trip planning done in a separate navigation app. They enter their route number, direction, origin stop, and final stop.
 
-- `activeTripError`: string - This is only provided if fetching failed
-- `fetchTrip(stopId, routeId)`
-  - Attempts to get the closest arrival of the route with id `routeId` to the
-    stop with id `stopId`
-  - This function only polls the stop for arrivals in the next 60 minutes, and
-    will fail if there are no scheduled or predicted arrivals for the requested
-    route at the requested stop
-- `watchTrip(trip)`
-  - Subscribes to updates regarding the status of `trip` every 2 minutes
-- `stopWatchTrip()` - Cancels any subscriptions to `trip` updates
-  - This function must be called before the subscribed component unmounts, or
-    else the application will experience memory leaks
+![App Flow](app-flow.jpg)
 
-### **Preferences**
+The user also sees a confirmation screen that they tap to select.
 
-This component provides data regarding the user's preferences (either chosen or
-default).
+![Route Details Confirmation](route-details-confirmation.jpg)
 
-- `buzzList` - The list of buzz patterns and their triggers
+Then, the user prepares for the bus arrival. They can keep their phone in their hand, their jean pocket, or their jacket pocket. The phone will buzz when the bus is close to arrival so the user has time to prepare.
 
-  - ```javascript
-    [
-      {
-        unit: "stop" | "minute" | "percent",
-        value: number,
-        buzz: {
-          repeat: boolean,
-          pattern: number[]
-        }
-      }
-    ]
-    ```
+![Wait for Bus](wait-for-bus.jpg)
+
+Once the bus arrives the user takes out their phone, clicks on the screen and then has the following screen facing away from them.
+
+![Route Display Screen](route-display-screen.jpg)
+
+At this point, there can be further two cases. If the user still has some vision, they are likely to get on the bus on their own. They will show the screen above to the driver so he can confirm that the user is on the right bus. However, if the user is completely blind, the user will hold this screen up at the bus stop and wait for the bus driver to tap on the screen to confirm.
+
+For the first case that the user has some vision, if they accidentally get on the wrong bus (which they will know through the driver pressing “no” and the phone buzzing), they can get off the bus and wait again. For the second case, if the user’s bus has not arrived yet, no action would be happening to the screen so the user would know their bus has not arrived yet. In either way, the user does not get on the wrong bus.
+
+Once the right bus arrives, however, the driver will press yes in both cases and the user will either take a seat on their own, or the bus driver would help them on the bus.
+
+### Getting off at the right bus stop
+
+The user wants to get off at the correct bus stop and wants to make sure that they have a reliable, stress free way to keep track of where they are in their route.
+Once the user gets on the correct bus, the following screen shows up:
+
+![5 Stops Away](5-stops-away.jpg)
+
+They sit down and keep their phone in their hand, in their jean pocket, or their jacket pocket. As the bus goes through each stop in the route, the number on the screen decrements.
+
+While on the bus, the user could be doing different activities such as talking, drinking water, eating a snack all of which may distract and thus prevent them from getting off at the right stop. And so, the user is not worried because when they are 2 stops away they get a vibration to let them know they need to get ready to get off. They get another alert like this when they are 1 stop away. Once they arrive at their bus, the vibration will go off indefinitely and the user will stop the vibration by tapping on the screen.
+
+Therefore, regardless of where they sit or what they are doing, the user will still remember to get off at their desired final destination.
+
+## Preventing failure
+
+The following failure cases are under the assumption that the user follows the flow of the application:
+
+- In case of phone dying, all information is lost. In order to prevent this case from happening, the user should leave the house with as much battery as possible and if possible, a wireless charger in case of battery outage.
+ 
+- In case of phone losing service, only once the service is back, the user’s process on the application restarts; meaning they have to re-enter their information.
+
+- In the case that the OneBusAway api is off, the user may be getting off a little early or a little after their desired stop and they will need to find their way to their destination.
+
+- In the case of not feeling the buzz when the bus approaches, the user might miss the bus and need take catch the next one.
+
+- In the case of not feeling the buzz when the destination stop approaches, the user might miss their stop and get off a couple of stops late.
+
+- In the case of the bus driver not seeing the phone display of the bus route the user needs, the bus might pass by without helping the user onto the bus. To mitigate this problem, the service should be well explained in training to the bus drivers.
